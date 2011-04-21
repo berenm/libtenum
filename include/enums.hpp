@@ -161,10 +161,10 @@ namespace enums {
   LIBENUM_DEFINE_LAST_DESERIALIZER(type_m)
 
 #define LIBENUM_DYNAMIC_ENUM(type_m,values_m) \
-    LIBENUM_DECLARE_ENUM(type_m, BOOST_PP_SEQ_ENUM(values_m)) \
-    namespace enums { \
-      LIBENUM_DEFINE_DYNAMIC_SERIALIZERS(type_m##_t,BOOST_PP_SEQ_REVERSE(values_m)) \
-      LIBENUM_DEFINE_DYNAMIC_DESERIALIZERS(type_m##_t,values_m) \
-    }
+    LIBENUM_DECLARE_ENUM(type_m, BOOST_PP_SEQ_ENUM(values_m))
+//    namespace enums {
+//      LIBENUM_DEFINE_DYNAMIC_SERIALIZERS(type_m##_t,BOOST_PP_SEQ_REVERSE(values_m))
+//      LIBENUM_DEFINE_DYNAMIC_DESERIALIZERS(type_m##_t,values_m)
+//    }
 
 #endif /* ENUMS_HPP_ */
