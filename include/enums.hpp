@@ -17,8 +17,7 @@
   struct type_m { \
       enum type_m##_e { \
         __unknown__, \
-        values_m, \
-        __last__ \
+        values_m \
       }; \
   }; \
   typedef type_m :: type_m##_e type_m##_t;
