@@ -32,10 +32,10 @@ project libenum : requirements
   <threading>multi
   : default-build debug ;
 
-unit-test test1 : test/test1.cpp ;
-unit-test test2 : test/test2.cpp : <cflags>--std=c++0x ;
+unit-test test_c98 : test/test_c98.cpp ;
+unit-test test_c0x : test/test_c0x.cpp : <cflags>--std=c++0x ;
 
-alias build : test1 test2 ;
+alias build : test_c98 test_c0x ;
 
 fhs.install install libenum
                     :

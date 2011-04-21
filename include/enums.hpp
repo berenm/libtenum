@@ -29,36 +29,84 @@
 #endif /* LIBENUM_DEFAULT_BIT_FLAG_SEPARATOR */
 
 #ifdef LIBENUM_USE_SHORTCUTS
-#  define _enum_s LIBENUM_SIMPLE_STATIC_ENUM
-#  define _enum LIBENUM_STATIC_ENUM
-#  define _dynamic_enum_s LIBENUM_SIMPLE_DYNAMIC_ENUM
-#  define _dynamic_enum LIBENUM_DYNAMIC_ENUM
-#  define _bit_flag_s LIBENUM_SIMPLE_BIT_FLAG
-#  define _bit_flag LIBENUM_BIT_FLAG
+#  define _e_enum_s LIBENUM_SIMPLE_STATIC_ENUM
+#  define _e_enum LIBENUM_STATIC_ENUM
+#  define _e_dynamic_enum_s LIBENUM_SIMPLE_DYNAMIC_ENUM
+#  define _e_dynamic_enum LIBENUM_DYNAMIC_ENUM
+#  define _e_bit_flag_s LIBENUM_SIMPLE_BIT_FLAG
+#  define _e_bit_flag LIBENUM_BIT_FLAG
 
-#  define _ LIBENUM_ELEM
-#  define _v LIBENUM_ELEM_VALUE
-#  define _n LIBENUM_ELEM_NAME
-#  define _vn LIBENUM_ELEM_VALUE_NAME
+#  define _e_ LIBENUM_ELEM
+#  define _e_v LIBENUM_ELEM_VALUE
+#  define _e_n LIBENUM_ELEM_NAME
+#  define _e_vn LIBENUM_ELEM_VALUE_NAME
+
+#  define _e_add LIBENUM_ADD
+#  define _e_sub LIBENUM_SUB
+
+#  define _e_inc LIBENUM_INC
+#  define _e_dec LIBENUM_DEC
+
+#  define _e_bit_or LIBENUM_BIT_OR
+#  define _e_bit_and LIBENUM_BIT_AND
+
+#  define _e_cast_uint LIBENUM_CAST_UINT
+#  define _e_cast_enum LIBENUM_CAST_ENUM
 #endif /* LIBENUM_USE_SHORTCUTS */
+
+/**
+ * @brief Elementary macros.
+ */
+#define LIBENUM_CAST_UINT(value_m)              static_cast< ::boost::uint64_t > (value_m)
+#define LIBENUM_CAST_ENUM(type_m,value_m)       static_cast< type_m##_t > (value_m)
+
+#define LIBENUM_BINARY_OPERATOR(type_m,lhs_m,rhs_m,operator_m) LIBENUM_CAST_ENUM(type_m, LIBENUM_CAST_UINT(lhs_m) operator_m LIBENUM_CAST_UINT(rhs_m))
+
+#define LIBENUM_ADD(type_m,lhs_m,rhs_m) LIBENUM_BINARY_OPERATOR(type_m,lhs_m,rhs_m,+)
+#define LIBENUM_SUB(type_m,lhs_m,rhs_m) LIBENUM_BINARY_OPERATOR(type_m,lhs_m,rhs_m,-)
+
+#define LIBENUM_INC(type_m,value_m) LIBENUM_ADD(type_m,value_m,1)
+#define LIBENUM_DEC(type_m,value_m) LIBENUM_SUB(type_m,value_m,1)
+
+#define LIBENUM_BIT_OR(type_m,lhs_m,rhs_m) LIBENUM_BINARY_OPERATOR(type_m,lhs_m,rhs_m,|)
+#define LIBENUM_BIT_AND(type_m,lhs_m,rhs_m) LIBENUM_BINARY_OPERATOR(type_m,lhs_m,rhs_m,&)
 
 #ifdef BOOST_NO_SCOPED_ENUMS
 #  define LIBENUM_DECLARE_ENUM(type_m,values_m) \
           struct type_m { \
               enum type_m##_e { \
-                __unknown__, \
+                __unknown__ = -1, \
                 LIBENUM_DEFINE_ENUM_VALUES(values_m) \
               }; \
           }; \
           typedef type_m :: type_m##_e type_m##_t;
 
+#  define LIBENUM_DECLARE_DYNAMIC_ENUM_OPERATORS(type_m)
+#  define LIBENUM_DECLARE_BIT_FLAG_OPERATORS(type_m)
+
 #else
 #  define LIBENUM_DECLARE_ENUM(type_m,values_m) \
           enum class type_m { \
-            __unknown__, \
+            __unknown__ = -1, \
             LIBENUM_DEFINE_ENUM_VALUES(values_m) \
           }; \
           typedef type_m type_m##_t;
+
+#  define LIBENUM_DECLARE_DYNAMIC_ENUM_OPERATORS(type_m) \
+          static inline type_m operator+(type_m const lhs_in, ::std::uint64_t const rhs_in) { \
+            return LIBENUM_ADD(type_m,lhs_in,rhs_in); \
+          } \
+          static inline type_m operator-(type_m const lhs_in, ::std::uint64_t const rhs_in) { \
+            return LIBENUM_SUB(type_m,lhs_in,rhs_in); \
+          }
+
+#  define LIBENUM_DECLARE_BIT_FLAG_OPERATORS(type_m) \
+          static inline type_m operator&(type_m const lhs_in, type_m const rhs_in) { \
+            return LIBENUM_BIT_AND(type_m,lhs_in,rhs_in); \
+          } \
+          static inline type_m operator|(type_m const lhs_in, type_m const rhs_in) { \
+            return LIBENUM_BIT_OR(type_m,lhs_in,rhs_in); \
+          }
 
 #endif /* BOOST_NO_SCOPED_ENUMS */
 
@@ -141,12 +189,6 @@ namespace enums {
 #define LIBENUM_ELEM_NAME(element_m,name_m)               (LIBENUM_ELEM_NAME_I(element_m,name_m))
 #define LIBENUM_ELEM_VALUE_NAME(element_m,value_m,name_m) (LIBENUM_ELEM_VALUE_NAME_I(element_m,value_m,name_m))
 
-#define LIBENUM_UINT(value_m) static_cast< ::boost::uint64_t > (value_m)
-#define LIBENUM_ENUM(type_m,value_m) static_cast< type_m##_t > (value_m)
-
-#define LIBENUM_DEC(type_m,value_m,amount_m) LIBENUM_ENUM(type_m, LIBENUM_UINT(value_m) - LIBENUM_UINT(amount_m))
-#define LIBENUM_INC(type_m,value_m,amount_m) LIBENUM_ENUM(type_m, LIBENUM_UINT(value_m) + LIBENUM_UINT(amount_m))
-
 #define LIBENUM_DEFINE_ENUM_VALUES_EACH(_,__,value_m) \
     LIBENUM_TUPLE_ELEM(value_m) LIBENUM_TUPLE_VALUE(value_m),
 
@@ -161,8 +203,10 @@ namespace enums {
     type_m##_t enum_helper< type_m##_t >::get_base_of(type_m##_t const value_in) { \
       switch (value_in) { \
         BOOST_PP_SEQ_FOR_EACH(LIBENUM_DEFINE_GET_BASE_OF_EACH,type_m,values_m) \
+        case type_m :: __unknown__: \
+          return type_m :: __unknown__; \
         default: \
-          return get_base_of(LIBENUM_DEC(type_m, value_in, 1)); \
+          return get_base_of(LIBENUM_DEC(type_m,value_in)); \
       } \
     }
 
@@ -211,7 +255,7 @@ namespace enums {
       ::std::ostringstream stream; \
       stream << serialize_impl< false, false >(base_value); \
       \
-      ::boost::uint64_t offset = (LIBENUM_UINT(value_in) - LIBENUM_UINT(base_value)); \
+      ::boost::uint64_t offset = (LIBENUM_CAST_UINT(value_in) - LIBENUM_CAST_UINT(base_value)); \
       if (base_value != type_m ::__unknown__ && offset > 0) { \
         stream << LIBENUM_DEFAULT_DYNAMIC_ENUM_SEPARATOR << offset; \
       } \
@@ -233,11 +277,11 @@ namespace enums {
         offset = ::boost::lexical_cast< ::boost::uint64_t >(value_in.substr(separator_pos + 1)); \
       } \
       \
-      return LIBENUM_INC(type_m,base_value,offset); \
+      return LIBENUM_ADD(type_m,base_value,offset); \
     }
 
 #define LIBENUM_DEFINE_SERIALIZE_BIT_FLAG_EACH(_,type_m,value_m) \
-    if (LIBENUM_UINT(value_in) & LIBENUM_UINT(type_m :: LIBENUM_TUPLE_ELEM(value_m))) { \
+    if (LIBENUM_CAST_UINT(value_in) & LIBENUM_CAST_UINT(type_m :: LIBENUM_TUPLE_ELEM(value_m))) { \
       stream << LIBENUM_DEFAULT_BIT_FLAG_SEPARATOR << serialize_impl< false, false >(type_m :: LIBENUM_TUPLE_ELEM(value_m)); \
     } \
 
@@ -266,7 +310,7 @@ namespace enums {
       type_m##_t flag = deserialize_impl< false, false >(value_in.substr(0, separator_pos)); \
       if (separator_pos != ::std::string::npos) { \
         type_m##_t trailing_flags = deserialize(value_in.substr(separator_pos + 1)); \
-        return LIBENUM_ENUM(type_m, LIBENUM_UINT(flag) | LIBENUM_UINT(trailing_flags)); \
+        return LIBENUM_CAST_ENUM(type_m, LIBENUM_CAST_UINT(flag) | LIBENUM_CAST_UINT(trailing_flags)); \
       } else { \
         return flag; \
       } \
@@ -298,6 +342,7 @@ namespace enums {
 
 #define LIBENUM_DYNAMIC_ENUM_I(type_m,values_m) \
     LIBENUM_DECLARE_ENUM(type_m,values_m) \
+    LIBENUM_DECLARE_DYNAMIC_ENUM_OPERATORS(type_m) \
     namespace enums { \
       template< > struct is_dynamic< type_m##_t > : ::boost::true_type {}; \
       LIBENUM_DEFINE_GET_BASE_OF(type_m,values_m) \
@@ -310,6 +355,7 @@ namespace enums {
 
 #define LIBENUM_BIT_FLAG_I(type_m,values_m) \
     LIBENUM_DECLARE_ENUM(type_m,values_m) \
+    LIBENUM_DECLARE_BIT_FLAG_OPERATORS(type_m) \
     namespace enums { \
       template< > struct is_bit_flag< type_m##_t > : ::boost::true_type {}; \
       LIBENUM_DEFINE_GET_BASE_OF(type_m,values_m) \
