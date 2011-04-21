@@ -37,12 +37,6 @@ unit-test test2 : test/test2.cpp : <cflags>--std=c++0x ;
 
 alias build : test1 test2 ;
 
-fhs.build build_bin libenum
-                :
-                : 
-                : <target-address-models>32
-                  <target-address-models>64 ;
-
 fhs.install install libenum
                     :
                     :
