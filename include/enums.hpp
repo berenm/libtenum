@@ -70,6 +70,7 @@
 
 #define LIBENUM_BIT_OR(type_m,lhs_m,rhs_m) LIBENUM_BINARY_OPERATOR(type_m,lhs_m,rhs_m,|)
 #define LIBENUM_BIT_AND(type_m,lhs_m,rhs_m) LIBENUM_BINARY_OPERATOR(type_m,lhs_m,rhs_m,&)
+#define LIBENUM_BIT_XOR(type_m,lhs_m,rhs_m) LIBENUM_BINARY_OPERATOR(type_m,lhs_m,rhs_m,^)
 
 #ifdef BOOST_NO_SCOPED_ENUMS
 #  define LIBENUM_DECLARE_ENUM(type_m,values_m) \
@@ -106,7 +107,22 @@
           } \
           static inline type_m operator|(type_m const lhs_in, type_m const rhs_in) { \
             return LIBENUM_BIT_OR(type_m,lhs_in,rhs_in); \
-          }
+          } \
+          static inline type_m operator^(type_m const lhs_in, type_m const rhs_in) { \
+            return LIBENUM_BIT_XOR(type_m,lhs_in,rhs_in); \
+          } \
+          static inline type_m& operator&=(type_m& lhs_in, type_m const rhs_in) { \
+            lhs_in = lhs_in & rhs_in; \
+            return lhs_in; \
+          } \
+          static inline type_m& operator|=(type_m& lhs_in, type_m const rhs_in) { \
+            lhs_in = lhs_in | rhs_in; \
+            return lhs_in; \
+          } \
+          static inline type_m& operator^=(type_m& lhs_in, type_m const rhs_in) { \
+            lhs_in = lhs_in ^ rhs_in; \
+            return lhs_in; \
+          } \
 
 #endif /* BOOST_NO_SCOPED_ENUMS */
 

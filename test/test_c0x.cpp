@@ -106,6 +106,22 @@ BOOST_AUTO_TEST_CASE(test_bit_flag) {
   stream3 >> enum_value3;
   BOOST_CHECK_EQUAL(enum_value3,static_cast< bit_flag_t > (bit_flag::bit1 | bit_flag::bit3));
   BOOST_CHECK_EQUAL(enum_value3,static_cast< bit_flag_t > (0b101));
+
+  bit_flag_t enum_value4 = static_cast< bit_flag_t > (bit_flag::bit1 | bit_flag::bit2);
+  enum_value4 |= bit_flag::bit3;
+  ::std::string string_value4;
+  ::std::stringstream stream4;
+  stream4 << enum_value4;
+  stream4 >> string_value4;
+  BOOST_CHECK_EQUAL(string_value4,"bit1+bit2+bit3");
+
+  bit_flag_t enum_value5 = static_cast< bit_flag_t > (bit_flag::bit1 | bit_flag::bit2);
+  enum_value5 ^= bit_flag::bit2;
+  ::std::string string_value5;
+  ::std::stringstream stream5;
+  stream5 << enum_value5;
+  stream5 >> string_value5;
+  BOOST_CHECK_EQUAL(string_value5,"bit1");
 }
 
 BOOST_AUTO_TEST_SUITE_END()
