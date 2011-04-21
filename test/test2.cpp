@@ -3,39 +3,26 @@
  * @date Apr 20, 2011
  * @todo comment
  */
+
 #define BOOST_TEST_MODULE libenum_test
 #include <boost/test/unit_test.hpp>
-#include "enums2.hpp"
-#define element_m ((value1)(=2))
-#define element2_m BOOST_PP_IF( BOOST_PP_IS_UNARY(element_m), \
-    element_m, \
-    ((element_m)())(BOOST_PP_STRINGIZE(element_m)) \
-) \
 
-#define element3_m BOOST_PP_IF( BOOST_PP_IS_UNARY(LIBENUM_TUPLE_FIRST(element2_m)), \
-                            element2_m, \
-                            ((LIBENUM_TUPLE_FIRST(element2_m))(LIBENUM_TUPLE_SECOND(element2_m)))(BOOST_PP_STRINGIZE(LIBENUM_TUPLE_FIRST(element2_m))) \
-               )
-#define element4_m BOOST_PP_IF( BOOST_PP_EQUAL(2, BOOST_PP_SEQ_SIZE(LIBENUM_TUPLE_FIRST(element3_m))), \
-                                         element3_m, \
-                                         ((LIBENUM_TUPLE_ELEM(element3_m))())(LIBENUM_TUPLE_NAME(element3_m)) \
-                            )
+#define LIBENUM_USE_SHORTCUTS 1
+#include "enums.hpp"
 
-element4_m
-
-LIBENUM_COMPLETE_VALUES(((value1)(=2)))
-LIBENUM_COMPLETE_VALUES((((value2))("test_value2")))
-LIBENUM_COMPLETE_VALUES((value3))
-
-#define complete_sequence LIBENUM_COMPLETE_SEQ(sequence)
-
-LIBENUM_STATIC_ENUM(enum_type,
-    complete_sequence
+_dynamic_enum(enum_type,
+    _v(value1,=2)
+    _vn(value2,=5,"test_value2")
+    _(value3)
 )
 
-BOOST_AUTO_TEST_CASE( test1 )
+_enum_s(enum_type2,
+    (value1)(value2)(value3)
+)
+
+BOOST_AUTO_TEST_CASE( test2 )
 {
-  enum_type_t enum_value = enum_type::value1;
+  enum_type_t enum_value = LIBENUM_DEC(enum_type, enum_type::value2, 1);
   ::std::stringstream stream;
   stream << enum_value;
   ::std::string value_string = stream.str();
@@ -43,12 +30,4 @@ BOOST_AUTO_TEST_CASE( test1 )
 
   stream >> enum_value;
   ::std::cout << enum_value << ::std::endl;
-
-  //  ::std::cout << enum_helper< enum_type >::serialize(enum_value) << ::std::endl;
-  //  ::std::cout
-  //      << enum_helper< enum_type >::serialize(enum_helper< enum_type >::deserialize("value1+value2+value3"))
-  //      << ::std::endl;
-  //
-  //  enum_value = enum_helper< enum_type >::deserialize(value_string);
-  //  ::std::cout << enum_value << ::std::endl;
 }

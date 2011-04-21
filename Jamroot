@@ -27,14 +27,13 @@ project libenum : requirements
   
   $(INCLUDES)
   <tag>@$(__name__).tag
-  <cflags>--std=c++0x
   <address-model>32:<instruction-set>i686
 
   <threading>multi
   : default-build debug ;
 
 unit-test test1 : test/test1.cpp ;
-unit-test test2 : test/test2.cpp ;
+unit-test test2 : test/test2.cpp : <cflags>--std=c++0x ;
 
 alias build : test1 test2 ;
 
