@@ -66,37 +66,23 @@ namespace enums {
 #define BOOST_PP_SEQ_TO_LIST(sequence_m) BOOST_PP_TUPLE_TO_LIST(BOOST_PP_ARRAY_SIZE(BOOST_PP_SEQ_TO_ARRAY(sequence_m)), BOOST_PP_SEQ_TO_TUPLE(sequence_m))
 #define BOOST_PP_LIST_TO_SEQ(list_m) BOOST_PP_TUPLE_TO_SEQ(BOOST_PP_LIST_SIZE(list_m), BOOST_PP_LIST_TO_TUPLE(list_m))
 
-#define LIBENUM_TUPLE_FIRST(element_m) BOOST_PP_TUPLE_ELEM(2,0,element_m)
-#define LIBENUM_TUPLE_SECOND(element_m) BOOST_PP_TUPLE_ELEM(2,1,element_m)
+#define LIBENUM_TUPLE_FIRST(element_m) BOOST_PP_SEQ_ELEM(0,element_m)
+#define LIBENUM_TUPLE_SECOND(element_m) BOOST_PP_SEQ_ELEM(1,element_m)
 
 #define LIBENUM_TUPLE_ELEM(element_m) LIBENUM_TUPLE_FIRST(LIBENUM_TUPLE_FIRST(element_m))
 #define LIBENUM_TUPLE_VALUE(element_m) LIBENUM_TUPLE_SECOND(LIBENUM_TUPLE_FIRST(element_m))
 #define LIBENUM_TUPLE_NAME(element_m) LIBENUM_TUPLE_SECOND(element_m)
 
 #define LIBENUM_COMPLETE_VALUES(element_m) \
-  BOOST_PP_IF( BOOST_PP_IS_BINARY(element_m), \
-               BOOST_PP_IF( BOOST_PP_IS_BINARY( LIBENUM_TUPLE_FIRST(element_m) ), \
-                 ( \
-                   ( \
-                     LIBENUM_TUPLE_FIRST(LIBENUM_TUPLE_FIRST(element_m)), \
-                     LIBENUM_TUPLE_SECOND(LIBENUM_TUPLE_FIRST(element_m)) \
-                   ), \
-                   LIBENUM_TUPLE_SECOND(element_m) \
-                 ), \
-                 ( \
-                   ( \
-                     LIBENUM_TUPLE_FIRST(element_m), \
-                     LIBENUM_TUPLE_SECOND(element_m) \
-                   ), \
-                   BOOST_PP_STRINGIZE( LIBENUM_TUPLE_FIRST(element_m) ) \
-                 ) \
-               ),\
-               ( \
-                 ( \
-                   element_m, \
-                 ), \
-                 BOOST_PP_STRINGIZE( element_m ) \
-               ) \
+  BOOST_PP_IF( BOOST_PP_IS_UNARY(element_m), \
+               BOOST_PP_IF( BOOST_PP_IS_UNARY(LIBENUM_TUPLE_FIRST(element_m)), \
+                            BOOST_PP_IF( BOOST_PP_EQUAL(2, BOOST_PP_SEQ_SIZE(LIBENUM_TUPLE_FIRST(element_m))), \
+                                         element_m, \
+                                         ((LIBENUM_TUPLE_ELEM(element_m))())(LIBENUM_TUPLE_NAME(element_m)) \
+                            ), \
+                            ((LIBENUM_TUPLE_FIRST(element_m))(LIBENUM_TUPLE_SECOND(element_m)))(BOOST_PP_STRINGIZE(LIBENUM_TUPLE_FIRST(element_m))) \
+               ), \
+               ((element_m)())(BOOST_PP_STRINGIZE(element_m)) \
              )
 
 #define LIBENUM_COMPLETE_VALUES_TRANSFORM(_,__,element_m) LIBENUM_COMPLETE_VALUES(element_m)
@@ -104,9 +90,9 @@ namespace enums {
 #define LIBENUM_COMPLETE_SEQ(sequence_m) BOOST_PP_LIST_TO_SEQ(LIBENUM_COMPLETE_LIST(BOOST_PP_SEQ_TO_LIST(sequence_m)))
 
 #define LIBENUM_ELEM(element_m) (element_m)
-#define LIBENUM_ELEM_VALUE(element_m,value_m) (element_m, = value_m)
-#define LIBENUM_ELEM_NAME(element_m,name_m) ((element_m),name_m)
-#define LIBENUM_ELEM_VALUE_NAME(element_m,value_m,name_m) ((element_m, = value_m),name_m)
+#define LIBENUM_ELEM_VALUE(element_m,value_m) ((element_m)(= value_m))
+#define LIBENUM_ELEM_NAME(element_m,name_m) (((element_m))(name_m))
+#define LIBENUM_ELEM_VALUE_NAME(element_m,value_m,name_m) (((element_m)(= value_m))(name_m))
 
 #define LIBENUM_UINT(value_m) static_cast< ::std::uint64_t > (value_m)
 #define LIBENUM_ENUM(type_m,value_m) static_cast< type_m > (value_m)
