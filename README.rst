@@ -1,5 +1,5 @@
-libenum : a metaprogramming library to make enums a little bit nicer
-=====================================================================
+libtenum : a metaprogramming library to make enums a little bit nicer
+======================================================================
 
 GOALS
 ------
