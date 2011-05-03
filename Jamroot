@@ -14,7 +14,7 @@ lib boost_system : : $(LIB_SEARCH) ;
 lib boost_log : : $(LIB_SEARCH) ;
 lib boost_test_exec_monitor : : $(LIB_SEARCH) ;
 
-project libenum : requirements
+project libtenum : requirements
   <library>boost_thread
   <library>boost_program_options
   <library>boost_filesystem
@@ -37,7 +37,7 @@ unit-test test_c0x : test/test_c0x.cpp : <cflags>--std=c++0x ;
 
 alias build : test_c98 test_c0x ;
 
-fhs.install install libenum
+fhs.install install libtenum
                     :
                     :
                     : [ path.glob-tree include/ : *.* : ]

@@ -1,14 +1,13 @@
 /**
  * @file
  * @date Apr 20, 2011
- * @todo comment
  */
 
-#define BOOST_TEST_MODULE libenum_test
+#define BOOST_TEST_MODULE TENUM_test
 #include <boost/test/unit_test.hpp>
 
-#define LIBENUM_USE_SHORTCUTS 1
-#include "enums.hpp"
+#define TENUM_USE_SHORTCUTS 1
+#include "tenum.hpp"
 
 _e_enum_s(static_enum,
     (value1)(value2)(value3)
