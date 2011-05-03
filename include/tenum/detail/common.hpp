@@ -24,7 +24,7 @@
                 TENUM_DEFINE_ENUM_VALUES(values_m) \
               }; \
           }; \
-          typedef type_m :: type_m##_e type_m##_t;
+          typedef type_m :: type_m##_e BOOST_PP_CAT(type_m,_t);
 
 #else
 
@@ -33,7 +33,7 @@
             __unknown__ = -1, \
             TENUM_DEFINE_ENUM_VALUES(values_m) \
           }; \
-          typedef type_m type_m##_t;
+          typedef type_m BOOST_PP_CAT(type_m,_t);
 
 #endif /* BOOST_NO_SCOPED_ENUMS */
 

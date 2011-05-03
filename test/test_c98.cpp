@@ -11,7 +11,7 @@
 #define TENUM_USE_SHORTCUTS 1
 #include "tenum.hpp"
 
-_e_enum_s(static_enum,
+_lte_enum_s(static_enum,
     (value1)(value2)(value3)
 )
 

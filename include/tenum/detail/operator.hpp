@@ -15,8 +15,17 @@
 #include <boost/config.hpp>
 #include <boost/integer.hpp>
 
+/**
+ * @def TENUM_CAST_UINT(value_m)
+ * @brief Expands to static_cast of value_m to uint64_t.
+ */
 #define TENUM_CAST_UINT(value_m)              static_cast< ::boost::uint64_t > (value_m)
-#define TENUM_CAST_ENUM(type_m,value_m)       static_cast< type_m##_t > (value_m)
+
+/**
+ * @def TENUM_CAST_ENUM(type_m,value_m)
+ * @brief Expands to static_cast of value_m to enum type_m.
+ */
+#define TENUM_CAST_ENUM(type_m,value_m)       static_cast< BOOST_PP_CAT(type_m,_t) > (value_m)
 
 #define TENUM_BINARY_OPERATOR(type_m,lhs_m,rhs_m,operator_m) TENUM_CAST_ENUM(type_m, TENUM_CAST_UINT(lhs_m) operator_m TENUM_CAST_UINT(rhs_m))
 
@@ -30,10 +39,15 @@
 #define TENUM_BIT_AND(type_m,lhs_m,rhs_m) TENUM_BINARY_OPERATOR(type_m,lhs_m,rhs_m,&)
 #define TENUM_BIT_XOR(type_m,lhs_m,rhs_m) TENUM_BINARY_OPERATOR(type_m,lhs_m,rhs_m,^)
 
+/**
+ * @def TENUM_DECLARE_DYNAMIC_ENUM_OPERATORS(type_m)
+ * @brief Expands to operators declaration for dynamic enum type_m (+, -, += and -=).
+ *
+ * Expands to nothing when scoped enums are not available as old-style enums are automatically casted to integers.
+ */
 #ifdef BOOST_NO_SCOPED_ENUMS
 
 #  define TENUM_DECLARE_DYNAMIC_ENUM_OPERATORS(type_m)
-#  define TENUM_DECLARE_BIT_FLAG_OPERATORS(type_m)
 
 #else
 
@@ -43,7 +57,27 @@
           } \
           static inline type_m operator-(type_m const lhs_in, ::std::uint64_t const rhs_in) { \
             return TENUM_SUB(type_m,lhs_in,rhs_in); \
+          } \
+          static inline type_m& operator+=(type_m& lhs_in, ::std::uint64_t const rhs_in) { \
+            return lhs_in = lhs_in + rhs_in; \
+          } \
+          static inline type_m& operator-=(type_m& lhs_in, ::std::uint64_t const rhs_in) { \
+            return lhs_in = lhs_in - rhs_in; \
           }
+
+#endif /* BOOST_NO_SCOPED_ENUMS */
+
+/**
+ * @def TENUM_DECLARE_BIT_FLAG_OPERATORS(type_m)
+ * @brief Expands to operators declaration for bit flag type_m (&, |, ^, &=, |= and ^=).
+ *
+ * Expands to nothing when scoped enums are not available as old-style enums are automatically casted to integers.
+ */
+#ifdef BOOST_NO_SCOPED_ENUMS
+
+#  define TENUM_DECLARE_BIT_FLAG_OPERATORS(type_m)
+
+#else
 
 #  define TENUM_DECLARE_BIT_FLAG_OPERATORS(type_m) \
           static inline type_m operator&(type_m const lhs_in, type_m const rhs_in) { \
@@ -56,17 +90,14 @@
             return TENUM_BIT_XOR(type_m,lhs_in,rhs_in); \
           } \
           static inline type_m& operator&=(type_m& lhs_in, type_m const rhs_in) { \
-            lhs_in = lhs_in & rhs_in; \
-            return lhs_in; \
+            return lhs_in = lhs_in & rhs_in; \
           } \
           static inline type_m& operator|=(type_m& lhs_in, type_m const rhs_in) { \
-            lhs_in = lhs_in | rhs_in; \
-            return lhs_in; \
+            return lhs_in = lhs_in | rhs_in; \
           } \
           static inline type_m& operator^=(type_m& lhs_in, type_m const rhs_in) { \
-            lhs_in = lhs_in ^ rhs_in; \
-            return lhs_in; \
-          } \
+            return lhs_in = lhs_in ^ rhs_in; \
+          }
 
 #endif /* BOOST_NO_SCOPED_ENUMS */
 

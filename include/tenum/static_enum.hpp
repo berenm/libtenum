@@ -25,7 +25,7 @@
 
 #define TENUM_DEFINE_GET_BASE_OF(type_m,values_m) \
     template< > \
-    type_m##_t enum_helper< type_m##_t >::get_base_of(type_m##_t const value_in) { \
+    BOOST_PP_CAT(type_m,_t) enum_helper< BOOST_PP_CAT(type_m,_t) >::get_base_of(BOOST_PP_CAT(type_m,_t) const value_in) { \
       switch (value_in) { \
         BOOST_PP_SEQ_FOR_EACH(TENUM_DEFINE_GET_BASE_OF_EACH,type_m,values_m) \
         case type_m :: __unknown__: \
@@ -42,9 +42,9 @@
 #define TENUM_DEFINE_SERIALIZE(type_m,values_m) \
     template< > \
     template< > \
-    ::std::string enum_helper< type_m##_t >::serialize_impl< false, false >(type_m##_t const value_in, \
-                                                                        ::boost::false_type const&, \
-                                                                        ::boost::false_type const&) { \
+    ::std::string enum_helper< BOOST_PP_CAT(type_m,_t) >::serialize_impl< false, false >(BOOST_PP_CAT(type_m,_t) const value_in, \
+                                                                                     ::boost::false_type const&, \
+                                                                                     ::boost::false_type const&) { \
       switch (value_in) { \
         BOOST_PP_SEQ_FOR_EACH(TENUM_DEFINE_SERIALIZE_EACH,type_m,values_m) \
         default: \
@@ -60,23 +60,29 @@
 #define TENUM_DEFINE_DESERIALIZE(type_m,values_m) \
     template< > \
     template< > \
-    type_m##_t enum_helper< type_m##_t >::deserialize_impl< false, false >(::std::string const& value_in, \
-                                                                       ::boost::false_type const&, \
-                                                                       ::boost::false_type const&) { \
+    BOOST_PP_CAT(type_m,_t) enum_helper< BOOST_PP_CAT(type_m,_t) >::deserialize_impl< false, false >(::std::string const& value_in, \
+                                                                                    ::boost::false_type const&, \
+                                                                                    ::boost::false_type const&) { \
       BOOST_PP_SEQ_FOR_EACH(TENUM_DEFINE_DESERIALIZE_EACH,type_m,values_m) \
       { \
         return type_m ::__unknown__; \
       } \
-    } \
+    }
 
-#define TENUM_STATIC_ENUM_I(type_m,values_m) \
-    TENUM_DECLARE_ENUM(type_m,values_m) \
+#define TENUM_DECLARE_STATIC_ENUM_SERIALIZATION(type_m,values_m) \
     namespace tenum { \
       TENUM_DEFINE_GET_BASE_OF(type_m,values_m) \
       TENUM_DEFINE_SERIALIZE(type_m,values_m) \
       TENUM_DEFINE_DESERIALIZE(type_m,values_m) \
     } \
     TENUM_DEFINE_STREAM_OPERATORS(type_m)
+
+#define TENUM_DECLARE_STATIC_ENUM(type_m,values_m) \
+    TENUM_DECLARE_ENUM(type_m,values_m)
+
+#define TENUM_STATIC_ENUM_I(type_m,values_m) \
+    TENUM_DECLARE_STATIC_ENUM(type_m,values_m) \
+    TENUM_DECLARE_STATIC_ENUM_SERIALIZATION(type_m,values_m)
 
 #define TENUM_STATIC_ENUM(type_m,values_m) TENUM_STATIC_ENUM_I(type_m,values_m)
 #define TENUM_SIMPLE_STATIC_ENUM(type_m,values_m) TENUM_STATIC_ENUM_I(type_m,TENUM_COMPLETE_SIMPLE_SEQ(values_m))

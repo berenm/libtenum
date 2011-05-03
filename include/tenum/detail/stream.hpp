@@ -16,16 +16,16 @@
 
 #define TENUM_DEFINE_STREAM_OPERATORS(type_m) \
     template< typename OutputStream > \
-    OutputStream& operator<<(OutputStream& ostream, type_m##_t const enum_in) { \
-      ostream << ::tenum::enum_helper< type_m##_t >::serialize(enum_in); \
+    OutputStream& operator<<(OutputStream& ostream, BOOST_PP_CAT(type_m,_t) const enum_in) { \
+      ostream << ::tenum::enum_helper< BOOST_PP_CAT(type_m,_t) >::serialize(enum_in); \
       return ostream; \
     } \
     \
     template< typename InputStream > \
-    InputStream& operator>>(InputStream& istream, type_m##_t& enum_out) { \
+    InputStream& operator>>(InputStream& istream, BOOST_PP_CAT(type_m,_t)& enum_out) { \
       ::std::string enum_string; \
       istream >> enum_string; \
-      enum_out = ::tenum::enum_helper< type_m##_t >::deserialize(enum_string); \
+      enum_out = ::tenum::enum_helper< BOOST_PP_CAT(type_m,_t) >::deserialize(enum_string); \
       return istream; \
     }
 

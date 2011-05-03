@@ -13,7 +13,7 @@
  * @brief If defined, will create shorter macros to access enum definition macros.
  */
 #ifdef TENUM_USE_SHORTCUTS
-#  define _e_enum_s TENUM_SIMPLE_STATIC_ENUM
+#  define _lte_enum_s TENUM_SIMPLE_STATIC_ENUM
 #  define _e_enum TENUM_STATIC_ENUM
 #  define _e_dynamic_enum_s TENUM_SIMPLE_DYNAMIC_ENUM
 #  define _e_dynamic_enum TENUM_DYNAMIC_ENUM
