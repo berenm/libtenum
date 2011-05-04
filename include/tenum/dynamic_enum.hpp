@@ -11,7 +11,7 @@
 #include <boost/lexical_cast.hpp>
 #include <tenum/static_enum.hpp>
 
-#define TENUM_DEFINE_SERIALIZE_DYNAMIC(type_m,values_m) \
+#define TENUM_DEFINE_SERIALIZE_DYNAMIC(type_m,tuples_m) \
   template< > \
   template< > \
   inline ::std::string \
@@ -31,7 +31,7 @@
     return stream.str(); \
   }
 
-#define TENUM_DEFINE_DESERIALIZE_DYNAMIC(type_m,values_m) \
+#define TENUM_DEFINE_DESERIALIZE_DYNAMIC(type_m,tuples_m) \
   template< > \
   template< > \
   inline TENUM_TYPE(type_m) \
@@ -51,28 +51,28 @@
     return TENUM_CAST_ENUM(type_m,base_value + offset); \
   }
 
-#define TENUM_DECLARE_DYNAMIC_ENUM_SERIALIZATION(type_m,values_m) \
+#define TENUM_DECLARE_DYNAMIC_ENUM_SERIALIZATION(type_m,tuples_m) \
   namespace tenum { \
     template< > struct is_dynamic< TENUM_TYPE(type_m) > : ::boost::true_type {}; \
-    TENUM_GET_BASE_OF_DEFINITION(type_m,values_m) \
-    TENUM_DEFINE_SERIALIZE(type_m,values_m) \
-    TENUM_DEFINE_DESERIALIZE(type_m,values_m) \
-    TENUM_DEFINE_SERIALIZE_DYNAMIC(type_m,values_m) \
-    TENUM_DEFINE_DESERIALIZE_DYNAMIC(type_m,values_m) \
+    TENUM_GET_BASE_OF_DEFINITION(type_m,tuples_m) \
+    TENUM_DEFINE_SERIALIZE(type_m,tuples_m) \
+    TENUM_DEFINE_DESERIALIZE(type_m,tuples_m) \
+    TENUM_DEFINE_SERIALIZE_DYNAMIC(type_m,tuples_m) \
+    TENUM_DEFINE_DESERIALIZE_DYNAMIC(type_m,tuples_m) \
   } \
   TENUM_STREAM_OPERATORS_DEFINITION(type_m)
 
-#define TENUM_DECLARE_DYNAMIC_ENUM(type_m,values_m) \
-  TENUM_ENUM_DEFINITION(type_m,values_m,-1) \
+#define TENUM_DECLARE_DYNAMIC_ENUM(type_m,tuples_m) \
+  TENUM_ENUM_DEFINITION(type_m,tuples_m,-1) \
   TENUM_DYNAMIC_ENUM_OPERATORS_DECLARATION(type_m) \
   TENUM_DYNAMIC_ENUM_OPERATORS_DEFINITION(type_m)
 
-#define TENUM_DYNAMIC_ENUM_I(type_m,values_m) \
-  TENUM_DECLARE_DYNAMIC_ENUM(type_m,values_m) \
-  TENUM_DECLARE_DYNAMIC_ENUM_SERIALIZATION(type_m,values_m)
+#define TENUM_DYNAMIC_ENUM_I(type_m,tuples_m) \
+  TENUM_DECLARE_DYNAMIC_ENUM(type_m,tuples_m) \
+  TENUM_DECLARE_DYNAMIC_ENUM_SERIALIZATION(type_m,tuples_m)
 
-#define TENUM_DYNAMIC_ENUM(type_m,values_m) \
-  TENUM_DYNAMIC_ENUM_I(type_m,values_m)
+#define TENUM_DYNAMIC_ENUM(type_m,tuples_m) \
+  TENUM_DYNAMIC_ENUM_I(type_m,tuples_m)
 #define TENUM_SIMPLE_DYNAMIC_ENUM(type_m,values_m) \
   TENUM_DYNAMIC_ENUM_I(type_m,TENUM_ENUM_VALUES_COMPLETE(values_m))
 

@@ -15,28 +15,28 @@
 #include <tenum/detail/type.hpp>
 
 /**
- * @def TENUM_TUPLE_CREATE(element_m,value_m,name_m)
+ * @def TENUM_TUPLE_CREATE(value_m,integer_value_m,name_m)
  * @brief Expands to an element of a values sequence, as a tuple of 3 elements.
  *
  * First element of the tuple is the defined enum value, second element is the defined enum value's initial integer value
  * preceded by = or empty if the default enum integer value should be used, third element is the serialized name of the
  * enum value, as a char const*.
  */
-#define TENUM_TUPLE_CREATE(element_m,value_m,name_m) \
-  (element_m,value_m,name_m)
-
-/**
- * @def TENUM_TUPLE_GET_ELEM(tuple_m)
- * @brief Expands to the defined enum value of tuple_m.
- */
-#define TENUM_TUPLE_GET_ELEM(tuple_m) \
-  BOOST_PP_TUPLE_ELEM(3,0,tuple_m)
+#define TENUM_TUPLE_CREATE(value_m,integer_value_m,name_m) \
+  (value_m,integer_value_m,name_m)
 
 /**
  * @def TENUM_TUPLE_GET_VALUE(tuple_m)
- * @brief Expands to the integer value tuple_m, or empty.
+ * @brief Expands to the defined enum value of tuple_m.
  */
 #define TENUM_TUPLE_GET_VALUE(tuple_m) \
+  BOOST_PP_TUPLE_ELEM(3,0,tuple_m)
+
+/**
+ * @def TENUM_TUPLE_GET_INTEGER_VALUE(tuple_m)
+ * @brief Expands to the integer value tuple_m, or empty.
+ */
+#define TENUM_TUPLE_GET_INTEGER_VALUE(tuple_m) \
   BOOST_PP_TUPLE_ELEM(3,1,tuple_m)
 
 /**
@@ -47,112 +47,112 @@
   BOOST_PP_TUPLE_ELEM(3,2,tuple_m)
 
 /**
- * @def TENUM_TUPLE(element_m)
- * @brief Expands to a tenum tuple, using only the element_m information to create it.
+ * @def TENUM_TUPLE(value_m)
+ * @brief Expands to a tenum tuple, using only the value_m information to create it.
  *
  * The integer value is set to empty, so the default enum integer value is used, and the serialized name is set to
- * the stringized name of element_m.
+ * the stringized name of value_m.
  */
-#define TENUM_TUPLE(element_m) \
-  TENUM_TUPLE_CREATE(element_m,BOOST_PP_EMPTY(),BOOST_PP_STRINGIZE(element_m))
+#define TENUM_TUPLE(value_m) \
+  TENUM_TUPLE_CREATE(value_m,BOOST_PP_EMPTY(),BOOST_PP_STRINGIZE(value_m))
 
 /**
- * @def TENUM_TUPLE_VALUED(element_m,value_m)
- * @brief Expands to a tenum tuple, using the element_m and the given explicit integer value value_m to create it.
+ * @def TENUM_TUPLE_VALUED(value_m,integer_value_m)
+ * @brief Expands to a tenum tuple, using the value_m and the given explicit integer value integer_value_m to create it.
  *
- * The serialized name is set to the stringized name of element_m.
+ * The serialized name is set to the stringized name of value_m.
  */
-#define TENUM_TUPLE_VALUED(element_m,value_m) \
-  TENUM_TUPLE_CREATE(element_m,=value_m,BOOST_PP_STRINGIZE(element_m))
+#define TENUM_TUPLE_VALUED(value_m,integer_value_m) \
+  TENUM_TUPLE_CREATE(value_m,=integer_value_m,BOOST_PP_STRINGIZE(value_m))
 
 /**
- * @def TENUM_TUPLE_NAMED(element_m,name_m)
- * @brief Expands to a tenum tuple, using the element_m and the given explicit serialized name name_m to create it.
+ * @def TENUM_TUPLE_NAMED(value_m,name_m)
+ * @brief Expands to a tenum tuple, using the value_m and the given explicit serialized name name_m to create it.
  *
  * The integer value is set to empty, so the default enum integer value is used.
  */
-#define TENUM_TUPLE_NAMED(element_m,name_m) \
-  TENUM_TUPLE_CREATE(element_m,BOOST_PP_EMPTY(),name_m)
+#define TENUM_TUPLE_NAMED(value_m,name_m) \
+  TENUM_TUPLE_CREATE(value_m,BOOST_PP_EMPTY(),name_m)
 
 /**
- * @def TENUM_TUPLE_VALUED_NAMED(element_m,value_m,name_m)
- * @brief Expands to a tenum tuple, using the element_m, the given explicit integer value value_m and the given
+ * @def TENUM_TUPLE_VALUED_NAMED(value_m,integer_value_m,name_m)
+ * @brief Expands to a tenum tuple, using the value_m, the given explicit integer value integer_value_m and the given
  * explicit serialized name name_m to create it.
  */
-#define TENUM_TUPLE_VALUED_NAMED(element_m,value_m,name_m) \
-  TENUM_TUPLE_CREATE(element_m,=value_m,name_m)
+#define TENUM_TUPLE_VALUED_NAMED(value_m,integer_value_m,name_m) \
+  TENUM_TUPLE_CREATE(value_m,=integer_value_m,name_m)
 
 /**
- * @def TENUM_ELEMENT(element_m)
- * @brief Expands to a sequence element containing the a tenum tuple created using TENUM_TUPLE(element_m).
+ * @def TENUM_ELEMENT(value_m)
+ * @brief Expands to a sequence element containing the a tenum tuple created using TENUM_TUPLE(value_m).
  */
-#define TENUM_ELEMENT(element_m) \
-  (TENUM_TUPLE(element_m))
+#define TENUM_ELEMENT(value_m) \
+  (TENUM_TUPLE(value_m))
 
 /**
- * @def TENUM_ELEMENT_VALUED(element_m,value_m)
- * @brief Expands to a sequence element containing the a tenum tuple created using TENUM_TUPLE_VALUED(element_m,value_m).
+ * @def TENUM_ELEMENT_VALUED(value_m,integer_value_m)
+ * @brief Expands to a sequence element containing the a tenum tuple created using TENUM_TUPLE_VALUED(value_m,integer_value_m).
  */
-#define TENUM_ELEMENT_VALUED(element_m,value_m) \
-  (TENUM_TUPLE_VALUED(element_m,value_m))
+#define TENUM_ELEMENT_VALUED(value_m,integer_value_m) \
+  (TENUM_TUPLE_VALUED(value_m,integer_value_m))
 
 /**
- * @def TENUM_ELEMENT_NAMED(element_m,name_m)
- * @brief Expands to a sequence element containing the a tenum tuple created using TENUM_TUPLE_NAMED(element_m,name_m).
+ * @def TENUM_ELEMENT_NAMED(value_m,name_m)
+ * @brief Expands to a sequence element containing the a tenum tuple created using TENUM_TUPLE_NAMED(value_m,name_m).
  */
-#define TENUM_ELEMENT_NAMED(element_m,name_m) \
-  (TENUM_TUPLE_NAMED(element_m,name_m))
+#define TENUM_ELEMENT_NAMED(value_m,name_m) \
+  (TENUM_TUPLE_NAMED(value_m,name_m))
 
 /**
- * @def TENUM_ELEMENT_VALUED_NAMED(element_m,value_m,name_m)
- * @brief Expands to a sequence element containing the a tenum tuple created using TENUM_TUPLE_VALUED_NAMED(element_m,value_m,name_m).
+ * @def TENUM_ELEMENT_VALUED_NAMED(value_m,integer_value_m,name_m)
+ * @brief Expands to a sequence element containing the a tenum tuple created using TENUM_TUPLE_VALUED_NAMED(value_m,integer_value_m,name_m).
  */
-#define TENUM_ELEMENT_VALUED_NAMED(element_m,value_m,name_m) \
-  (TENUM_TUPLE_VALUED_NAMED(element_m,value_m,name_m))
+#define TENUM_ELEMENT_VALUED_NAMED(value_m,integer_value_m,name_m) \
+  (TENUM_TUPLE_VALUED_NAMED(value_m,integer_value_m,name_m))
 
 #define TENUM_ENUM_VALUES_COMPLETE_EACH(_,__,value_m) \
   TENUM_TUPLE(value_m)
 #define TENUM_ENUM_VALUES_COMPLETE(values_m) \
   BOOST_PP_SEQ_TRANSFORM(TENUM_ENUM_VALUES_COMPLETE_EACH, ~, values_m)
 
-#define TENUM_ENUM_VALUES_DEFINITION_EACH(_,__,value_m) \
-  TENUM_TUPLE_GET_ELEM(value_m) TENUM_TUPLE_GET_VALUE(value_m),
-#define TENUM_ENUM_VALUES_DEFINITION(values_m) \
-  BOOST_PP_SEQ_FOR_EACH(TENUM_ENUM_VALUES_DEFINITION_EACH, ~, values_m)
+#define TENUM_ENUM_VALUES_DEFINITION_EACH(_,__,tuple_m) \
+  TENUM_TUPLE_GET_VALUE(tuple_m) TENUM_TUPLE_GET_INTEGER_VALUE(tuple_m),
+#define TENUM_ENUM_VALUES_DEFINITION(tuples_m) \
+  BOOST_PP_SEQ_FOR_EACH(TENUM_ENUM_VALUES_DEFINITION_EACH, ~, tuples_m)
 
 /**
- * @def TENUM_ENUM_DEFINITION(type_m,values_m,unknown_value_m)
+ * @def TENUM_ENUM_DEFINITION(type_m,tuples_m,unknown_integer_value_m)
  * @brief Expands to the declaration of type_m enum, with or without enum class keyword depending on the availability
  * of it, and using a trick otherwise.
  *
  * This will define two typenames, type_m, which should be used to access the enum defined values, and
  * TENUM_TYPE(type_m) which should be used to type variables, parameters or templates typenames.
  *
- * An additional __unknown__ value will be added before the given values list, using the integer value unknown_value_m,
- * which should be lower or greater than all other values defined in the enum:
+ * An additional __unknown__ value will be added before the given values list, using the integer value
+ * unknown_integer_value_m, which should be lower or greater than all other values defined in the enum:
  * - -1 is the default __unknown__ integer value for static and dynamic enums.
  * - 0 is the default __unknown__ integer value for bit flags.
  *
  * @param type_m the enum typename.
- * @param values_m the defined values of the enum, as a boost preprocessor sequence of tenum tuples.
- * @param unknown_value_m the integer value of the __unknown__ value.
+ * @param tuples_m the defined values of the enum, as a boost preprocessor sequence of tenum tuples.
+ * @param unknown_integer_value_m the integer value of the __unknown__ value.
  */
 
 #ifdef BOOST_NO_SCOPED_ENUMS
 
-#  define TENUM_ENUM_DEFINITION(type_m,values_m,unknown_value_m) \
+#  define TENUM_ENUM_DEFINITION(type_m,tuples_m,unknown_integer_value_m) \
 struct type_m { \
     enum BOOST_PP_CAT(type_m,_e) { \
-      TENUM_ENUM_VALUES_DEFINITION(BOOST_PP_SEQ_PUSH_FRONT(values_m,TENUM_TUPLE_VALUED(__unknown__,unknown_value_m))) \
+      TENUM_ENUM_VALUES_DEFINITION(BOOST_PP_SEQ_PUSH_FRONT(tuples_m,TENUM_TUPLE_VALUED(__unknown__,unknown_integer_value_m))) \
     }; \
 }; \
 typedef type_m :: BOOST_PP_CAT(type_m,_e) TENUM_TYPE(type_m);
 
 #else
 
-#  define TENUM_ENUM_DEFINITION(type_m,values_m,unknown_value_m) \
+#  define TENUM_ENUM_DEFINITION(type_m,tuples_m,unknown_integer_value_m) \
 enum class type_m { \
-  TENUM_ENUM_VALUES_DEFINITION(BOOST_PP_SEQ_PUSH_FRONT(values_m,TENUM_TUPLE_VALUED(__unknown__,unknown_value_m))) \
+  TENUM_ENUM_VALUES_DEFINITION(BOOST_PP_SEQ_PUSH_FRONT(tuples_m,TENUM_TUPLE_VALUED(__unknown__,unknown_integer_value_m))) \
 }; \
 typedef type_m TENUM_TYPE(type_m);
 

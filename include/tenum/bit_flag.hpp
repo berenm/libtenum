@@ -10,15 +10,15 @@
 
 #include <tenum/static_enum.hpp>
 
-#define TENUM_DEFINE_SERIALIZE_BIT_FLAG_EACH(_,type_m,value_m) \
-  if (TENUM_CAST_UINT(value_in & TENUM_VALUE(type_m,TENUM_TUPLE_GET_ELEM(value_m)))) { \
+#define TENUM_DEFINE_SERIALIZE_BIT_FLAG_EACH(_,type_m,tuple_m) \
+  if (TENUM_CAST_UINT(value_in & TENUM_VALUE(type_m,TENUM_TUPLE_GET_VALUE(tuple_m)))) { \
     stream << TENUM_DEFAULT_SEPARATOR_BIT_FLAG; \
-    stream << serialize_impl< false, false >(TENUM_VALUE(type_m,TENUM_TUPLE_GET_ELEM(value_m)), \
+    stream << serialize_impl< false, false >(TENUM_VALUE(type_m,TENUM_TUPLE_GET_VALUE(tuple_m)), \
                                              ::boost::false_type(), \
                                              ::boost::false_type()); \
   }
 
-#define TENUM_DEFINE_SERIALIZE_BIT_FLAG(type_m,values_m) \
+#define TENUM_DEFINE_SERIALIZE_BIT_FLAG(type_m,tuples_m) \
   template< > \
   template< > \
   inline ::std::string \
@@ -26,14 +26,14 @@
                                                                    ::boost::false_type const&, \
                                                                    ::boost::true_type const&) { \
     ::std::ostringstream stream; \
-    BOOST_PP_SEQ_FOR_EACH(TENUM_DEFINE_SERIALIZE_BIT_FLAG_EACH,type_m,values_m) \
+    BOOST_PP_SEQ_FOR_EACH(TENUM_DEFINE_SERIALIZE_BIT_FLAG_EACH,type_m,tuples_m) \
     \
     ::std::string out = stream.str(); \
     return out.substr(::std::min(out.length(), \
                                  sizeof(TENUM_DEFAULT_SEPARATOR_BIT_FLAG) / sizeof(::std::string::value_type))); \
   }
 
-#define TENUM_DEFINE_DESERIALIZE_BIT_FLAG(type_m,values_m) \
+#define TENUM_DEFINE_DESERIALIZE_BIT_FLAG(type_m,tuples_m) \
   template< > \
   template< > \
   inline TENUM_TYPE(type_m) \
@@ -52,28 +52,28 @@
     } \
   }
 
-#define TENUM_DECLARE_BIT_FLAG_SERIALIZATION(type_m,values_m) \
+#define TENUM_DECLARE_BIT_FLAG_SERIALIZATION(type_m,tuples_m) \
   namespace tenum { \
     template< > struct is_bit_flag< TENUM_TYPE(type_m) > : ::boost::true_type {}; \
-    TENUM_GET_BASE_OF_DEFINITION(type_m,values_m) \
-    TENUM_DEFINE_SERIALIZE(type_m,values_m) \
-    TENUM_DEFINE_DESERIALIZE(type_m,values_m) \
-    TENUM_DEFINE_SERIALIZE_BIT_FLAG(type_m,values_m) \
-    TENUM_DEFINE_DESERIALIZE_BIT_FLAG(type_m,values_m) \
+    TENUM_GET_BASE_OF_DEFINITION(type_m,tuples_m) \
+    TENUM_DEFINE_SERIALIZE(type_m,tuples_m) \
+    TENUM_DEFINE_DESERIALIZE(type_m,tuples_m) \
+    TENUM_DEFINE_SERIALIZE_BIT_FLAG(type_m,tuples_m) \
+    TENUM_DEFINE_DESERIALIZE_BIT_FLAG(type_m,tuples_m) \
   } \
   TENUM_STREAM_OPERATORS_DEFINITION(type_m)
 
-#define TENUM_DECLARE_BIT_FLAG(type_m,values_m) \
-  TENUM_ENUM_DEFINITION(type_m,values_m,0) \
+#define TENUM_DECLARE_BIT_FLAG(type_m,tuples_m) \
+  TENUM_ENUM_DEFINITION(type_m,tuples_m,0) \
   TENUM_BIT_FLAG_OPERATORS_DECLARATION(type_m) \
   TENUM_BIT_FLAG_OPERATORS_DEFINITION(type_m)
 
-#define TENUM_BIT_FLAG_I(type_m,values_m) \
-  TENUM_DECLARE_BIT_FLAG(type_m,values_m) \
-  TENUM_DECLARE_BIT_FLAG_SERIALIZATION(type_m,values_m)
+#define TENUM_BIT_FLAG_I(type_m,tuples_m) \
+  TENUM_DECLARE_BIT_FLAG(type_m,tuples_m) \
+  TENUM_DECLARE_BIT_FLAG_SERIALIZATION(type_m,tuples_m)
 
-#define TENUM_BIT_FLAG(type_m,values_m) \
-  TENUM_BIT_FLAG_I(type_m,values_m)
+#define TENUM_BIT_FLAG(type_m,tuples_m) \
+  TENUM_BIT_FLAG_I(type_m,tuples_m)
 #define TENUM_SIMPLE_BIT_FLAG(type_m,values_m) \
   TENUM_BIT_FLAG_I(type_m,TENUM_ENUM_VALUES_COMPLETE(values_m))
 
