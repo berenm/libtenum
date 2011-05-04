@@ -17,18 +17,39 @@
 
 namespace tenum {
 
+  /**
+   * @todo comment.
+   */
   template< typename EnumType >
   struct is_dynamic: ::boost::false_type {
   };
 
+  /**
+   * @todo comment.
+   */
   template< typename EnumType >
   struct is_bit_flag: ::boost::false_type {
   };
 
+  /**
+   * @todo comment.
+   */
   template< typename EnumType >
   struct enum_helper {
+      /**
+       * @todo comment.
+       * @param value_in
+       * @return
+       */
       static inline EnumType get_base_of(EnumType const value_in);
 
+      /**
+       * @todo comment.
+       * @param enum_value_in
+       * @param
+       * @param
+       * @return
+       */
       template< bool const IsDynamic, bool const IsBitFlag >
       static inline ::std::string serialize_impl(EnumType const enum_value_in,
                                                  ::boost::integral_constant< bool, IsDynamic > const& =
@@ -42,6 +63,13 @@ namespace tenum {
         return "";
       }
 
+      /**
+       * @todo comment.
+       * @param value_in
+       * @param
+       * @param
+       * @return
+       */
       template< bool const IsDynamic, bool const IsBitFlag >
       static inline EnumType deserialize_impl(::std::string const& value_in,
                                               ::boost::integral_constant< bool, IsDynamic > const& =
@@ -55,10 +83,20 @@ namespace tenum {
         return static_cast< EnumType > (0);
       }
 
+      /**
+       * @todo comment.
+       * @param value_in
+       * @return
+       */
       static inline ::std::string serialize(EnumType const value_in) {
         return serialize_impl(value_in, is_dynamic< EnumType > (), is_bit_flag< EnumType > ());
       }
 
+      /**
+       * @todo comment.
+       * @param value_in
+       * @return
+       */
       static inline EnumType deserialize(::std::string const& value_in) {
         return deserialize_impl(value_in, is_dynamic< EnumType > (), is_bit_flag< EnumType > ());
       }

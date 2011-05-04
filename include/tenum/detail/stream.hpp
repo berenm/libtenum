@@ -14,19 +14,28 @@
 
 #include "tenum/detail/helper.hpp"
 
+/**
+ * @def TENUM_DEFINE_STREAM_OPERATORS(type_m)
+ * @brief Expands to templated stream operator definition for the type_m enum.
+ *
+ * The stream operators use ::tenum::enum_helper (de)serialize methods to convert type_m enum to string and
+ * string to type_m enum. The input stream operator uses a temporary string to store the enum value, and will
+ * read the content of the stream up to the first white space character in this string before converting it to
+ * type_m enum. Therefore, serialized enum values should never contain white spaces.
+ */
 #define TENUM_DEFINE_STREAM_OPERATORS(type_m) \
-    template< typename OutputStream > \
-    OutputStream& operator<<(OutputStream& ostream, BOOST_PP_CAT(type_m,_t) const enum_in) { \
-      ostream << ::tenum::enum_helper< BOOST_PP_CAT(type_m,_t) >::serialize(enum_in); \
-      return ostream; \
-    } \
-    \
-    template< typename InputStream > \
-    InputStream& operator>>(InputStream& istream, BOOST_PP_CAT(type_m,_t)& enum_out) { \
-      ::std::string enum_string; \
-      istream >> enum_string; \
-      enum_out = ::tenum::enum_helper< BOOST_PP_CAT(type_m,_t) >::deserialize(enum_string); \
-      return istream; \
-    }
+  template< typename OutputStream > \
+  OutputStream& operator<<(OutputStream& ostream, TENUM_TYPE(type_m) const enum_in) { \
+    ostream << ::tenum::enum_helper< TENUM_TYPE(type_m) >::serialize(enum_in); \
+    return ostream; \
+  } \
+  \
+  template< typename InputStream > \
+  InputStream& operator>>(InputStream& istream, TENUM_TYPE(type_m)& enum_out) { \
+    ::std::string enum_string; \
+    istream >> enum_string; \
+    enum_out = ::tenum::enum_helper< TENUM_TYPE(type_m) >::deserialize(enum_string); \
+    return istream; \
+  }
 
 #endif /* TENUM_DETAIL_STREAM_HPP_ */
