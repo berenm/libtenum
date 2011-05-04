@@ -26,10 +26,10 @@
 
 #ifdef BOOST_NO_SCOPED_ENUMS
 
-#  define TENUM_DECLARE_ENUM(type_m,values_m) \
+#  define TENUM_DECLARE_ENUM(type_m,values_m,unknown_value_m) \
   struct type_m { \
       enum BOOST_PP_CAT(type_m,_e) { \
-        __unknown__ = -1, \
+        __unknown__ = unknown_value_m, \
         TENUM_DEFINE_ENUM_VALUES(values_m) \
       }; \
   }; \
@@ -37,9 +37,9 @@
 
 #else
 
-#  define TENUM_DECLARE_ENUM(type_m,values_m) \
+#  define TENUM_DECLARE_ENUM(type_m,values_m,unknown_value_m) \
   enum class type_m { \
-    __unknown__ = -1, \
+    __unknown__ = unknown_value_m, \
     TENUM_DEFINE_ENUM_VALUES(values_m) \
   }; \
   typedef type_m TENUM_TYPE(type_m);

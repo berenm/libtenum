@@ -21,7 +21,7 @@
 #include "tenum/static_enum.hpp"
 
 #define TENUM_DEFINE_SERIALIZE_BIT_FLAG_EACH(_,type_m,value_m) \
-  if (TENUM_CAST_UINT(value_in) & TENUM_CAST_UINT(TENUM_VALUE(type_m,TENUM_TUPLE_ELEM(value_m)))) { \
+  if (TENUM_CAST_UINT(value_in & TENUM_VALUE(type_m,TENUM_TUPLE_ELEM(value_m)))) { \
     stream << TENUM_DEFAULT_BIT_FLAG_SEPARATOR << serialize_impl< false, false >(TENUM_VALUE(type_m,TENUM_TUPLE_ELEM(value_m))); \
   }
 
@@ -37,7 +37,7 @@
     \
     ::std::string out = stream.str(); \
     \
-    return out.substr(::std::min(out.length(), static_cast< ::std::size_t > (1))); \
+    return out.substr(::std::min(out.length(), sizeof(TENUM_DEFAULT_BIT_FLAG_SEPARATOR) / sizeof(::std::string::value_type))); \
   }
 
 #define TENUM_DEFINE_DESERIALIZE_BIT_FLAG(type_m,values_m) \
@@ -68,7 +68,7 @@
   TENUM_DEFINE_STREAM_OPERATORS(type_m)
 
 #define TENUM_DECLARE_BIT_FLAG(type_m,values_m) \
-  TENUM_DECLARE_ENUM(type_m,values_m) \
+  TENUM_DECLARE_ENUM(type_m,values_m,0) \
   TENUM_DECLARE_BIT_FLAG_OPERATORS(type_m) \
   TENUM_DEFINE_BIT_FLAG_OPERATORS(type_m)
 
