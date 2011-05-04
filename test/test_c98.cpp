@@ -16,15 +16,15 @@ _lte_enum_s(static_enum,
 )
 
 _lte_dynamic_enum(dynamic_enum,
-    _lte_ev(value1,=2)
-    _lte_evn(value2,=5,"test_value2")
+    _lte_ev(value1,2)
+    _lte_evn(value2,5,"test_value2")
     _lte_e(value3)
 )
 
 _lte_bit_flag(bit_flag,
-    _lte_ev(bit1,=0b001)
-    _lte_ev(bit2,=0b010)
-    _lte_ev(bit3,=0b100)
+    _lte_ev(bit1,0b001)
+    _lte_ev(bit2,0b010)
+    _lte_ev(bit3,0b100)
 )
 
 BOOST_AUTO_TEST_SUITE(basic_enum_tests)

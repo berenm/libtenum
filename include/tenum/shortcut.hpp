@@ -21,10 +21,10 @@
 #  define _lte_bit_flag_s       TENUM_SIMPLE_BIT_FLAG
 #  define _lte_bit_flag         TENUM_BIT_FLAG
 
-#  define _lte_e   TENUM_ELEM
-#  define _lte_ev  TENUM_ELEM_VALUE
-#  define _lte_en  TENUM_ELEM_NAME
-#  define _lte_evn TENUM_ELEM_VALUE_NAME
+#  define _lte_e   TENUM_ELEMENT
+#  define _lte_ev  TENUM_ELEMENT_VALUED
+#  define _lte_en  TENUM_ELEMENT_NAMED
+#  define _lte_evn TENUM_ELEMENT_VALUED_NAMED
 
 #endif /* TENUM_USE_SHORTCUTS */
 

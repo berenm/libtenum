@@ -34,11 +34,11 @@
   type_m :: value_m
 
 /**
- * @def TENUM_UNKNOWN_VALUE(type_m)
+ * @def TENUM_VALUE_UNKNOWN(type_m)
  * @brief Expands to the type_m defined "unknown" enum value.
  * @param type_m the enum typename.
  */
-#define TENUM_UNKNOWN_VALUE(type_m) \
+#define TENUM_VALUE_UNKNOWN(type_m) \
   TENUM_VALUE(type_m,__unknown__)
 
 #endif /* TENUM_DETAIL_COMMON_HPP_ */
