@@ -11,7 +11,8 @@
 #include <boost/preprocessor.hpp>
 
 #define IN_TENUM_HPP_
-#include "tenum/detail/common.hpp"
+#include "tenum/detail/type.hpp"
+#include "tenum/detail/enum.hpp"
 #include "tenum/detail/operator.hpp"
 #include "tenum/detail/helper.hpp"
 #include "tenum/detail/stream.hpp"
@@ -31,7 +32,7 @@
       case TENUM_UNKNOWN_VALUE(type_m): \
         return TENUM_UNKNOWN_VALUE(type_m); \
       default: \
-        return get_base_of(TENUM_DEC(type_m,value_in)); \
+        return get_base_of(TENUM_OPERATOR_SUB(type_m,value_in,1)); \
     } \
   }
 
@@ -78,7 +79,7 @@
   TENUM_DEFINE_STREAM_OPERATORS(type_m)
 
 #define TENUM_DECLARE_STATIC_ENUM(type_m,values_m) \
-  TENUM_DECLARE_ENUM(type_m,values_m,-1)
+  TENUM_DEFINE_ENUM(type_m,values_m,-1)
 
 #define TENUM_STATIC_ENUM_I(type_m,values_m) \
   TENUM_DECLARE_STATIC_ENUM(type_m,values_m) \

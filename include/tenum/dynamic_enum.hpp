@@ -13,7 +13,8 @@
 #include <boost/integer.hpp>
 
 #define IN_TENUM_HPP_
-#include "tenum/detail/common.hpp"
+#include "tenum/detail/type.hpp"
+#include "tenum/detail/enum.hpp"
 #include "tenum/detail/operator.hpp"
 #include "tenum/detail/helper.hpp"
 #include "tenum/detail/stream.hpp"
@@ -31,7 +32,7 @@
     TENUM_TYPE(type_m) base_value = get_base_of(value_in); \
     \
     ::std::ostringstream stream; \
-    stream << serialize_impl< false, false >(base_value); \
+    stream << serialize_impl< false, false >(base_value, ::boost::false_type(), ::boost::false_type()); \
     \
     ::boost::uint64_t offset = (TENUM_CAST_UINT(value_in) - TENUM_CAST_UINT(base_value)); \
     if (base_value != TENUM_UNKNOWN_VALUE(type_m) && offset > 0) { \
@@ -48,14 +49,16 @@
                                                                                         ::boost::true_type const&, \
                                                                                         ::boost::false_type const&) { \
     ::std::size_t separator_pos = value_in.find(TENUM_DEFAULT_DYNAMIC_ENUM_SEPARATOR); \
-    TENUM_TYPE(type_m) base_value = deserialize_impl< false, false >(value_in.substr(0, separator_pos)); \
+    TENUM_TYPE(type_m) base_value = deserialize_impl< false, false >(value_in.substr(0, separator_pos), \
+                                                                     ::boost::false_type(), \
+                                                                     ::boost::false_type()); \
     \
     ::boost::uint64_t offset = 0; \
     if (separator_pos != ::std::string::npos) { \
       offset = ::boost::lexical_cast< ::boost::uint64_t >(value_in.substr(separator_pos + 1)); \
     } \
     \
-    return TENUM_ADD(type_m,base_value,offset); \
+    return TENUM_CAST_ENUM(type_m,base_value + offset); \
   }
 
 #define TENUM_DECLARE_DYNAMIC_ENUM_SERIALIZATION(type_m,values_m) \
@@ -70,7 +73,7 @@
   TENUM_DEFINE_STREAM_OPERATORS(type_m)
 
 #define TENUM_DECLARE_DYNAMIC_ENUM(type_m,values_m) \
-  TENUM_DECLARE_ENUM(type_m,values_m,-1) \
+  TENUM_DEFINE_ENUM(type_m,values_m,-1) \
   TENUM_DECLARE_DYNAMIC_ENUM_OPERATORS(type_m) \
   TENUM_DEFINE_DYNAMIC_ENUM_OPERATORS(type_m)
 

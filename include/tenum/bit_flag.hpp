@@ -11,7 +11,8 @@
 #include <boost/preprocessor.hpp>
 
 #define IN_TENUM_HPP_
-#include "tenum/detail/common.hpp"
+#include "tenum/detail/type.hpp"
+#include "tenum/detail/enum.hpp"
 #include "tenum/detail/operator.hpp"
 #include "tenum/detail/helper.hpp"
 #include "tenum/detail/stream.hpp"
@@ -22,7 +23,9 @@
 
 #define TENUM_DEFINE_SERIALIZE_BIT_FLAG_EACH(_,type_m,value_m) \
   if (TENUM_CAST_UINT(value_in & TENUM_VALUE(type_m,TENUM_TUPLE_ELEM(value_m)))) { \
-    stream << TENUM_DEFAULT_BIT_FLAG_SEPARATOR << serialize_impl< false, false >(TENUM_VALUE(type_m,TENUM_TUPLE_ELEM(value_m))); \
+    stream << TENUM_DEFAULT_BIT_FLAG_SEPARATOR << serialize_impl< false, false >(TENUM_VALUE(type_m,TENUM_TUPLE_ELEM(value_m)), \
+                                                                                             ::boost::false_type(), \
+                                                                                             ::boost::false_type()); \
   }
 
 #define TENUM_DEFINE_SERIALIZE_BIT_FLAG(type_m,values_m) \
@@ -47,7 +50,9 @@
                                                                                         ::boost::false_type const&, \
                                                                                         ::boost::true_type const&) { \
     ::std::size_t separator_pos = value_in.find(TENUM_DEFAULT_BIT_FLAG_SEPARATOR); \
-    TENUM_TYPE(type_m) flag = deserialize_impl< false, false >(value_in.substr(0, separator_pos)); \
+    TENUM_TYPE(type_m) flag = deserialize_impl< false, false >(value_in.substr(0, separator_pos), \
+                                                               ::boost::false_type(), \
+                                                               ::boost::false_type()); \
     if (separator_pos != ::std::string::npos) { \
       TENUM_TYPE(type_m) trailing_flags = deserialize(value_in.substr(separator_pos + 1)); \
       return TENUM_CAST_ENUM(type_m, TENUM_CAST_UINT(flag) | TENUM_CAST_UINT(trailing_flags)); \
@@ -68,7 +73,7 @@
   TENUM_DEFINE_STREAM_OPERATORS(type_m)
 
 #define TENUM_DECLARE_BIT_FLAG(type_m,values_m) \
-  TENUM_DECLARE_ENUM(type_m,values_m,0) \
+  TENUM_DEFINE_ENUM(type_m,values_m,0) \
   TENUM_DECLARE_BIT_FLAG_OPERATORS(type_m) \
   TENUM_DEFINE_BIT_FLAG_OPERATORS(type_m)
 

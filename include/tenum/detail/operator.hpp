@@ -14,6 +14,7 @@
 
 #include <boost/config.hpp>
 #include <boost/integer.hpp>
+#include "tenum/detail/type.hpp"
 
 /**
  * @def TENUM_CAST_UINT(value_m)
@@ -30,60 +31,46 @@
   static_cast< TENUM_TYPE(type_m) > (value_m)
 
 /**
- * @def TENUM_BINARY_OPERATOR(type_m,lhs_m,rhs_m,operator_m)
+ * @def TENUM_OPERATOR_BINARY(type_m,lhs_m,rhs_m,operator_m)
  * @brief Expands to binary operator operator_m applied to uint-casted lhs_m and rhs_m, then casted back to enum type_m.
  */
-#define TENUM_BINARY_OPERATOR(type_m,lhs_m,rhs_m,operator_m) \
+#define TENUM_OPERATOR_BINARY(type_m,lhs_m,rhs_m,operator_m) \
   TENUM_CAST_ENUM(type_m, TENUM_CAST_UINT(lhs_m) operator_m TENUM_CAST_UINT(rhs_m))
 
 /**
- * @def TENUM_ADD(type_m,lhs_m,rhs_m)
+ * @def TENUM_OPERATOR_ADD(type_m,lhs_m,rhs_m)
  * @brief Expands to addition operator applied to lhs_m and rhs_m.
  */
-#define TENUM_ADD(type_m,lhs_m,rhs_m) \
-  TENUM_BINARY_OPERATOR(type_m,lhs_m,rhs_m,+)
+#define TENUM_OPERATOR_ADD(type_m,lhs_m,rhs_m) \
+  TENUM_OPERATOR_BINARY(type_m,lhs_m,rhs_m,+)
 
 /**
- * @def TENUM_SUB(type_m,lhs_m,rhs_m)
+ * @def TENUM_OPERATOR_SUB(type_m,lhs_m,rhs_m)
  * @brief Expands to subtraction operator applied to lhs_m and rhs_m.
  */
-#define TENUM_SUB(type_m,lhs_m,rhs_m) \
-  TENUM_BINARY_OPERATOR(type_m,lhs_m,rhs_m,-)
+#define TENUM_OPERATOR_SUB(type_m,lhs_m,rhs_m) \
+  TENUM_OPERATOR_BINARY(type_m,lhs_m,rhs_m,-)
 
 /**
- * @def TENUM_INC(type_m,value_m)
- * @brief Expands to incrementation of value_m by one.
- */
-#define TENUM_INC(type_m,value_m) \
-  TENUM_ADD(type_m,value_m,1)
-
-/**
- * @def TENUM_INC(type_m,value_m)
- * @brief Expands to decrementation of value_m by one.
- */
-#define TENUM_DEC(type_m,value_m) \
-  TENUM_SUB(type_m,value_m,1)
-
-/**
- * @def TENUM_BIT_OR(type_m,lhs_m,rhs_m)
+ * @def TENUM_OPERATOR_BIT_OR(type_m,lhs_m,rhs_m)
  * @brief Expands to binary bitwise or operator applied to lhs_m and rhs_m.
  */
-#define TENUM_BIT_OR(type_m,lhs_m,rhs_m) \
-  TENUM_BINARY_OPERATOR(type_m,lhs_m,rhs_m,|)
+#define TENUM_OPERATOR_BIT_OR(type_m,lhs_m,rhs_m) \
+  TENUM_OPERATOR_BINARY(type_m,lhs_m,rhs_m,|)
 
 /**
- * @def TENUM_BIT_AND(type_m,lhs_m,rhs_m)
+ * @def TENUM_OPERATOR_BIT_AND(type_m,lhs_m,rhs_m)
  * @brief Expands to binary bitwise and operator applied to lhs_m and rhs_m.
  */
-#define TENUM_BIT_AND(type_m,lhs_m,rhs_m) \
-  TENUM_BINARY_OPERATOR(type_m,lhs_m,rhs_m,&)
+#define TENUM_OPERATOR_BIT_AND(type_m,lhs_m,rhs_m) \
+  TENUM_OPERATOR_BINARY(type_m,lhs_m,rhs_m,&)
 
 /**
- * @def TENUM_BIT_XOR(type_m,lhs_m,rhs_m)
+ * @def TENUM_OPERATOR_BIT_XOR(type_m,lhs_m,rhs_m)
  * @brief Expands to binary bitwise xor operator applied to lhs_m and rhs_m.
  */
-#define TENUM_BIT_XOR(type_m,lhs_m,rhs_m) \
-  TENUM_BINARY_OPERATOR(type_m,lhs_m,rhs_m,^)
+#define TENUM_OPERATOR_BIT_XOR(type_m,lhs_m,rhs_m) \
+  TENUM_OPERATOR_BINARY(type_m,lhs_m,rhs_m,^)
 
 /**
  * @def TENUM_DECLARE_DYNAMIC_ENUM_OPERATORS(type_m)
@@ -122,60 +109,52 @@
 #else
 
 #  define TENUM_DECLARE_DYNAMIC_ENUM_OPERATORS(type_m) \
-  static inline type_m operator+(type_m const lhs_in, ::std::uint64_t const rhs_in); \
-  static inline type_m operator-(type_m const lhs_in, ::std::uint64_t const rhs_in); \
-  static inline type_m& operator+=(type_m& lhs_in, ::std::uint64_t const rhs_in); \
-  static inline type_m& operator-=(type_m& lhs_in, ::std::uint64_t const rhs_in);
+static inline TENUM_TYPE(type_m) operator+(TENUM_TYPE(type_m) const lhs_in, ::std::uint64_t const rhs_in); \
+static inline TENUM_TYPE(type_m) operator-(TENUM_TYPE(type_m) const lhs_in, ::std::uint64_t const rhs_in); \
+static inline TENUM_TYPE(type_m)& operator+=(TENUM_TYPE(type_m)& lhs_in, ::std::uint64_t const rhs_in); \
+static inline TENUM_TYPE(type_m)& operator-=(TENUM_TYPE(type_m)& lhs_in, ::std::uint64_t const rhs_in);
 
 #  define TENUM_DEFINE_DYNAMIC_ENUM_OPERATORS(type_m) \
-  static inline type_m operator+(type_m const lhs_in, ::std::uint64_t const rhs_in) { \
-    return TENUM_ADD(type_m,lhs_in,rhs_in); \
-  } \
-  static inline type_m operator-(type_m const lhs_in, ::std::uint64_t const rhs_in) { \
-    return TENUM_SUB(type_m,lhs_in,rhs_in); \
-  } \
-  static inline type_m& operator+=(type_m& lhs_in, ::std::uint64_t const rhs_in) { \
-    return lhs_in = lhs_in + rhs_in; \
-  } \
-  static inline type_m& operator-=(type_m& lhs_in, ::std::uint64_t const rhs_in) { \
-    return lhs_in = lhs_in - rhs_in; \
-  }
+static inline TENUM_TYPE(type_m) operator+(TENUM_TYPE(type_m) const lhs_in, ::std::uint64_t const rhs_in) { \
+  return TENUM_OPERATOR_ADD(type_m,lhs_in,rhs_in); \
+} \
+static inline TENUM_TYPE(type_m) operator-(TENUM_TYPE(type_m) const lhs_in, ::std::uint64_t const rhs_in) { \
+  return TENUM_OPERATOR_SUB(type_m,lhs_in,rhs_in); \
+} \
+static inline TENUM_TYPE(type_m)& operator+=(TENUM_TYPE(type_m)& lhs_in, ::std::uint64_t const rhs_in) { \
+  return lhs_in = lhs_in + rhs_in; \
+} \
+static inline TENUM_TYPE(type_m)& operator-=(TENUM_TYPE(type_m)& lhs_in, ::std::uint64_t const rhs_in) { \
+  return lhs_in = lhs_in - rhs_in; \
+}
 
 #  define TENUM_DECLARE_BIT_FLAG_OPERATORS(type_m) \
-  static inline type_m operator&(type_m const lhs_in, type_m const rhs_in); \
-  static inline type_m operator|(type_m const lhs_in, type_m const rhs_in); \
-  static inline type_m operator^(type_m const lhs_in, type_m const rhs_in); \
-  static inline type_m& operator&=(type_m& lhs_in, type_m const rhs_in); \
-  static inline type_m& operator|=(type_m& lhs_in, type_m const rhs_in); \
-  static inline type_m& operator^=(type_m& lhs_in, type_m const rhs_in);
+static inline TENUM_TYPE(type_m) operator&(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in); \
+static inline TENUM_TYPE(type_m) operator|(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in); \
+static inline TENUM_TYPE(type_m) operator^(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in); \
+static inline TENUM_TYPE(type_m)& operator&=(TENUM_TYPE(type_m)& lhs_in, TENUM_TYPE(type_m) const rhs_in); \
+static inline TENUM_TYPE(type_m)& operator|=(TENUM_TYPE(type_m)& lhs_in, TENUM_TYPE(type_m) const rhs_in); \
+static inline TENUM_TYPE(type_m)& operator^=(TENUM_TYPE(type_m)& lhs_in, TENUM_TYPE(type_m) const rhs_in);
 
 #  define TENUM_DEFINE_BIT_FLAG_OPERATORS(type_m) \
-  static inline type_m operator&(type_m const lhs_in, type_m const rhs_in) { \
-    return TENUM_BIT_AND(type_m,lhs_in,rhs_in); \
-  } \
-  static inline type_m operator|(type_m const lhs_in, type_m const rhs_in) { \
-    return TENUM_BIT_OR(type_m,lhs_in,rhs_in); \
-  } \
-  static inline type_m operator^(type_m const lhs_in, type_m const rhs_in) { \
-    return TENUM_BIT_XOR(type_m,lhs_in,rhs_in); \
-  } \
-  static inline type_m& operator&=(type_m& lhs_in, type_m const rhs_in) { \
-    return lhs_in = lhs_in & rhs_in; \
-  } \
-  static inline type_m& operator|=(type_m& lhs_in, type_m const rhs_in) { \
-    return lhs_in = lhs_in | rhs_in; \
-  } \
-  static inline type_m& operator^=(type_m& lhs_in, type_m const rhs_in) { \
-    return lhs_in = lhs_in ^ rhs_in; \
-  }
-
-#endif /* BOOST_NO_SCOPED_ENUMS */
-
-#ifdef BOOST_NO_SCOPED_ENUMS
-
-#  define TENUM_DECLARE_BIT_FLAG_OPERATORS(type_m)
-
-#else
+static inline TENUM_TYPE(type_m) operator&(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in) { \
+  return TENUM_OPERATOR_BIT_AND(type_m,lhs_in,rhs_in); \
+} \
+static inline TENUM_TYPE(type_m) operator|(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in) { \
+  return TENUM_OPERATOR_BIT_OR(type_m,lhs_in,rhs_in); \
+} \
+static inline TENUM_TYPE(type_m) operator^(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in) { \
+  return TENUM_OPERATOR_BIT_XOR(type_m,lhs_in,rhs_in); \
+} \
+static inline TENUM_TYPE(type_m)& operator&=(TENUM_TYPE(type_m)& lhs_in, TENUM_TYPE(type_m) const rhs_in) { \
+  return lhs_in = lhs_in & rhs_in; \
+} \
+static inline TENUM_TYPE(type_m)& operator|=(TENUM_TYPE(type_m)& lhs_in, TENUM_TYPE(type_m) const rhs_in) { \
+  return lhs_in = lhs_in | rhs_in; \
+} \
+static inline TENUM_TYPE(type_m)& operator^=(TENUM_TYPE(type_m)& lhs_in, TENUM_TYPE(type_m) const rhs_in) { \
+  return lhs_in = lhs_in ^ rhs_in; \
+}
 
 #endif /* BOOST_NO_SCOPED_ENUMS */
 

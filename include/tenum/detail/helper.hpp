@@ -52,10 +52,8 @@ namespace tenum {
        */
       template< bool const IsDynamic, bool const IsBitFlag >
       static inline ::std::string serialize_impl(EnumType const enum_value_in,
-                                                 ::boost::integral_constant< bool, IsDynamic > const& is_dynamic =
-                                                     ::boost::integral_constant< bool, IsDynamic >(),
-                                                 ::boost::integral_constant< bool, IsBitFlag > const& is_bit_flag =
-                                                     ::boost::integral_constant< bool, IsBitFlag >()) {
+                                                 ::boost::integral_constant< bool, IsDynamic > const& is_dynamic,
+                                                 ::boost::integral_constant< bool, IsBitFlag > const& is_bit_flag) {
         BOOST_STATIC_ASSERT_MSG(!IsDynamic, "serialization of dynamic enum is not supported for EnumType.");
         BOOST_STATIC_ASSERT_MSG(!IsBitFlag, "serialization of bit flags is not supported for EnumType.");
         BOOST_STATIC_ASSERT_MSG(IsDynamic && IsBitFlag, "serialization of enum is not supported for EnumType.");
@@ -72,10 +70,8 @@ namespace tenum {
        */
       template< bool const IsDynamic, bool const IsBitFlag >
       static inline EnumType deserialize_impl(::std::string const& value_in,
-                                              ::boost::integral_constant< bool, IsDynamic > const& is_dynamic =
-                                                  ::boost::integral_constant< bool, IsDynamic >(),
-                                              ::boost::integral_constant< bool, IsBitFlag > const& is_bit_flag =
-                                                  ::boost::integral_constant< bool, IsBitFlag >()) {
+                                              ::boost::integral_constant< bool, IsDynamic > const& is_dynamic,
+                                              ::boost::integral_constant< bool, IsBitFlag > const& is_bit_flag) {
         BOOST_STATIC_ASSERT_MSG(!IsDynamic, "deserialization of dynamic enum is not supported for EnumType.");
         BOOST_STATIC_ASSERT_MSG(!IsBitFlag, "deserialization of bit flags is not supported for EnumType.");
         BOOST_STATIC_ASSERT_MSG(IsDynamic && IsBitFlag, "deserialization of enum is not supported for EnumType.");
