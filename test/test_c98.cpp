@@ -127,6 +127,21 @@ BOOST_AUTO_TEST_CASE(test_dynamic_enum) {
   stream7 >> enum_value7;
   BOOST_CHECK_EQUAL(enum_value7,static_cast< dynamic_enum_t > (dynamic_enum::__unknown__));
   BOOST_CHECK_EQUAL(enum_value7,static_cast< dynamic_enum_t > (-1));
+
+  dynamic_enum_t enum_value8 = static_cast< dynamic_enum_t > (-2);
+  ::std::string string_value8;
+  ::std::stringstream stream8;
+  stream8 << enum_value8;
+  stream8 >> string_value8;
+  BOOST_CHECK_EQUAL(string_value8,"value3#18446744073709551608");
+
+  dynamic_enum_t enum_value9;
+  ::std::string string_value9 = "value3#18446744073709551608";
+  ::std::stringstream stream9;
+  stream9 << string_value9;
+  stream9 >> enum_value9;
+  BOOST_CHECK_EQUAL(enum_value9,static_cast< dynamic_enum_t > (dynamic_enum::__unknown__ - 1));
+  BOOST_CHECK_EQUAL(enum_value9,static_cast< dynamic_enum_t > (-2));
 }
 
 BOOST_AUTO_TEST_CASE(test_bit_flag) {

@@ -21,19 +21,19 @@
  * @brief Expands to a single case statement returning the same enum value as the tested case.
  */
 #define TENUM_GET_BASE_OF_DEFINITION_EACH(_,type_m,tuple_m) \
-  case TENUM_VALUE(type_m,TENUM_TUPLE_GET_VALUE(tuple_m)): \
+  if(TENUM_CAST_UINT(value_in) >= TENUM_CAST_UINT(TENUM_VALUE(type_m,TENUM_TUPLE_GET_VALUE(tuple_m)))) { \
     return TENUM_VALUE(type_m,TENUM_TUPLE_GET_VALUE(tuple_m)); \
+  } else \
 
 #define TENUM_GET_BASE_OF_DEFINITION(type_m,tuples_m) \
   template< > \
   inline TENUM_TYPE(type_m) \
   enum_helper< TENUM_TYPE(type_m) >::get_base_of(TENUM_TYPE(type_m) const value_in) { \
-    switch (value_in) { \
-      BOOST_PP_SEQ_FOR_EACH(TENUM_GET_BASE_OF_DEFINITION_EACH,type_m,tuples_m) \
-      case TENUM_VALUE_UNKNOWN(type_m): \
-        return TENUM_VALUE_UNKNOWN(type_m); \
-      default: \
-        return get_base_of(TENUM_OPERATOR_SUB(type_m,value_in,1)); \
+    if(TENUM_CAST_UINT(value_in) == TENUM_CAST_UINT(TENUM_VALUE_UNKNOWN(type_m))) { \
+      return TENUM_VALUE_UNKNOWN(type_m); \
+    } \
+    BOOST_PP_SEQ_FOR_EACH(TENUM_GET_BASE_OF_DEFINITION_EACH,type_m,BOOST_PP_SEQ_REVERSE(tuples_m)) { \
+      return TENUM_VALUE_UNKNOWN(type_m); \
     } \
   }
 
