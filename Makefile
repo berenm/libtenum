@@ -27,6 +27,6 @@ update-tools:
 	@git remote add build-tools http://github.com/rout/boost-build-tools.git 2>/dev/null |:
 	@git fetch build-tools master:build-tools 2>/dev/null                                |:
 	@git checkout build-tools Makefile fhs.jam build-config.jam                          |:
-	@git reset `git ls-tree --name-only build-tools | grep -v '^\.'` 2>/dev/null         |:
+	@git reset fhs.jam build-config.jam 2>/dev/null                                      |:
 	@git branch -D build-tools 2>/dev/null 1>/dev/null                                   |:
 	@git remote rm build-tools                                                           |:

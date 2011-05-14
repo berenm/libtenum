@@ -14,17 +14,17 @@
  */
 #ifdef TENUM_USE_SHORTCUTS
 
-#  define _lte_enum_s           TENUM_SIMPLE_STATIC_ENUM
-#  define _lte_enum             TENUM_STATIC_ENUM
-#  define _lte_dynamic_enum_s   TENUM_SIMPLE_DYNAMIC_ENUM
-#  define _lte_dynamic_enum     TENUM_DYNAMIC_ENUM
-#  define _lte_bit_flag_s       TENUM_SIMPLE_BIT_FLAG
-#  define _lte_bit_flag         TENUM_BIT_FLAG
+#  define lte_enum_s           TENUM_SIMPLE_STATIC_ENUM
+#  define lte_enum             TENUM_STATIC_ENUM
+#  define lte_dynamic_enum_s   TENUM_SIMPLE_DYNAMIC_ENUM
+#  define lte_dynamic_enum     TENUM_DYNAMIC_ENUM
+#  define lte_bit_flag_s       TENUM_SIMPLE_BIT_FLAG
+#  define lte_bit_flag         TENUM_BIT_FLAG
 
-#  define _lte_e   TENUM_ELEMENT
-#  define _lte_ev  TENUM_ELEMENT_VALUED
-#  define _lte_en  TENUM_ELEMENT_NAMED
-#  define _lte_evn TENUM_ELEMENT_VALUED_NAMED
+#  define lte_e   TENUM_ELEMENT
+#  define lte_ev  TENUM_ELEMENT_VALUED
+#  define lte_en  TENUM_ELEMENT_NAMED
+#  define lte_evn TENUM_ELEMENT_VALUED_NAMED
 
 #endif /* TENUM_USE_SHORTCUTS */
 

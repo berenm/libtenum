@@ -39,6 +39,6 @@
  * @param type_m the enum typename.
  */
 #define TENUM_VALUE_UNKNOWN(type_m) \
-  TENUM_VALUE(type_m,__unknown__)
+  TENUM_VALUE(type_m,lte_unknown)
 
 #endif /* TENUM_DETAIL_COMMON_HPP_ */

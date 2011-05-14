@@ -51,7 +51,7 @@
     switch (value_in) { \
       BOOST_PP_SEQ_FOR_EACH(TENUM_DEFINE_SERIALIZE_EACH,type_m,tuples_m) \
       default: \
-        return TENUM_DEFAULT_NAME(type_m,"__unknown__"); \
+        return TENUM_DEFAULT_NAME(type_m,"lte_unknown"); \
     } \
   }
 

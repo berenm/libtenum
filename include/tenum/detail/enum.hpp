@@ -110,12 +110,12 @@
 #define TENUM_ELEMENT_VALUED_NAMED(value_m,integer_value_m,name_m) \
   (TENUM_TUPLE_VALUED_NAMED(value_m,integer_value_m,name_m))
 
-#define TENUM_ENUM_VALUES_COMPLETE_EACH(_,__,value_m) \
+#define TENUM_ENUM_VALUES_COMPLETE_EACH(_1,_2,value_m) \
   TENUM_TUPLE(value_m)
 #define TENUM_ENUM_VALUES_COMPLETE(values_m) \
   BOOST_PP_SEQ_TRANSFORM(TENUM_ENUM_VALUES_COMPLETE_EACH, ~, values_m)
 
-#define TENUM_ENUM_VALUES_DEFINITION_EACH(_,__,tuple_m) \
+#define TENUM_ENUM_VALUES_DEFINITION_EACH(_1,_2,tuple_m) \
   TENUM_TUPLE_GET_VALUE(tuple_m) TENUM_TUPLE_GET_INTEGER_VALUE(tuple_m),
 #define TENUM_ENUM_VALUES_DEFINITION(tuples_m) \
   BOOST_PP_SEQ_FOR_EACH(TENUM_ENUM_VALUES_DEFINITION_EACH, ~, tuples_m)
@@ -128,14 +128,14 @@
  * This will define two typenames, type_m, which should be used to access the enum defined values, and
  * TENUM_TYPE(type_m) which should be used to type variables, parameters or templates typenames.
  *
- * An additional __unknown__ value will be added before the given values list, using the integer value
+ * An additional lte_unknown value will be added before the given values list, using the integer value
  * unknown_integer_value_m, which should be lower or greater than all other values defined in the enum:
- * - -1 is the default __unknown__ integer value for static and dynamic enums.
- * - 0 is the default __unknown__ integer value for bit flags.
+ * - -1 is the default lte_unknown integer value for static and dynamic enums.
+ * - 0 is the default lte_unknown integer value for bit flags.
  *
  * @param type_m the enum typename.
  * @param tuples_m the defined values of the enum, as a boost preprocessor sequence of tenum tuples.
- * @param unknown_integer_value_m the integer value of the __unknown__ value.
+ * @param unknown_integer_value_m the integer value of the lte_unknown value.
  */
 
 #ifdef BOOST_NO_SCOPED_ENUMS
@@ -143,7 +143,7 @@
 #  define TENUM_ENUM_DEFINITION(type_m,tuples_m,unknown_integer_value_m) \
 struct type_m { \
     enum BOOST_PP_CAT(type_m,_e) { \
-      TENUM_ENUM_VALUES_DEFINITION(BOOST_PP_SEQ_PUSH_FRONT(tuples_m,TENUM_TUPLE_VALUED(__unknown__,unknown_integer_value_m))) \
+      TENUM_ENUM_VALUES_DEFINITION(BOOST_PP_SEQ_PUSH_FRONT(tuples_m,TENUM_TUPLE_VALUED(lte_unknown,unknown_integer_value_m))) \
     }; \
 }; \
 typedef type_m :: BOOST_PP_CAT(type_m,_e) TENUM_TYPE(type_m);
@@ -152,7 +152,7 @@ typedef type_m :: BOOST_PP_CAT(type_m,_e) TENUM_TYPE(type_m);
 
 #  define TENUM_ENUM_DEFINITION(type_m,tuples_m,unknown_integer_value_m) \
 enum class type_m { \
-  TENUM_ENUM_VALUES_DEFINITION(BOOST_PP_SEQ_PUSH_FRONT(tuples_m,TENUM_TUPLE_VALUED(__unknown__,unknown_integer_value_m))) \
+  TENUM_ENUM_VALUES_DEFINITION(BOOST_PP_SEQ_PUSH_FRONT(tuples_m,TENUM_TUPLE_VALUED(lte_unknown,unknown_integer_value_m))) \
 }; \
 typedef type_m TENUM_TYPE(type_m);
 

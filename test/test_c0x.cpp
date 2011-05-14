@@ -11,20 +11,20 @@
 #define TENUM_USE_SHORTCUTS 1
 #include "tenum.hpp"
 
-_lte_enum_s(static_enum,
+lte_enum_s(static_enum,
     (value1)(value2)(value3)
 )
 
-_lte_dynamic_enum(dynamic_enum,
-    _lte_ev(value1,2)
-    _lte_evn(value2,5,"test_value2")
-    _lte_e(value3)
+lte_dynamic_enum(dynamic_enum,
+    lte_ev(value1,2)
+    lte_evn(value2,5,"test_value2")
+    lte_e(value3)
 )
 
-_lte_bit_flag(bit_flag,
-    _lte_ev(bit1,0b001)
-    _lte_ev(bit2,0b010)
-    _lte_ev(bit3,0b100)
+lte_bit_flag(bit_flag,
+    lte_ev(bit1,0b001)
+    lte_ev(bit2,0b010)
+    lte_ev(bit3,0b100)
 )
 
 BOOST_AUTO_TEST_SUITE(basic_enum_tests)
@@ -52,26 +52,26 @@ BOOST_AUTO_TEST_CASE(test_static_enum) {
   BOOST_CHECK_EQUAL(enum_value3,static_cast< static_enum_t > (static_enum::value2));
   BOOST_CHECK_EQUAL(enum_value3,static_cast< static_enum_t > (1));
 
-  static_enum_t enum_value5 = static_cast< static_enum_t > (static_enum::__unknown__);
+  static_enum_t enum_value5 = static_cast< static_enum_t > (static_enum::lte_unknown);
   ::std::string string_value5;
   ::std::stringstream stream5;
   stream5 << enum_value5;
   stream5 >> string_value5;
-  BOOST_CHECK_EQUAL(string_value5,"__unknown__");
+  BOOST_CHECK_EQUAL(string_value5,"lte_unknown");
 
   static_enum_t enum_value6 = static_cast< static_enum_t > (-1);
   ::std::string string_value6;
   ::std::stringstream stream6;
   stream6 << enum_value6;
   stream6 >> string_value6;
-  BOOST_CHECK_EQUAL(string_value6,"__unknown__");
+  BOOST_CHECK_EQUAL(string_value6,"lte_unknown");
 
   static_enum_t enum_value7;
   ::std::string string_value7 = "";
   ::std::stringstream stream7;
   stream7 << string_value7;
   stream7 >> enum_value7;
-  BOOST_CHECK_EQUAL(enum_value7,static_cast< static_enum_t > (static_enum::__unknown__));
+  BOOST_CHECK_EQUAL(enum_value7,static_cast< static_enum_t > (static_enum::lte_unknown));
   BOOST_CHECK_EQUAL(enum_value7,static_cast< static_enum_t > (-1));
 }
 
@@ -106,26 +106,26 @@ BOOST_AUTO_TEST_CASE(test_dynamic_enum) {
   BOOST_CHECK_EQUAL(enum_value4,static_cast< dynamic_enum_t > (dynamic_enum::value3 + 4));
   BOOST_CHECK_EQUAL(enum_value4,static_cast< dynamic_enum_t > (10));
 
-  dynamic_enum_t enum_value5 = static_cast< dynamic_enum_t > (dynamic_enum::__unknown__);
+  dynamic_enum_t enum_value5 = static_cast< dynamic_enum_t > (dynamic_enum::lte_unknown);
   ::std::string string_value5;
   ::std::stringstream stream5;
   stream5 << enum_value5;
   stream5 >> string_value5;
-  BOOST_CHECK_EQUAL(string_value5,"__unknown__");
+  BOOST_CHECK_EQUAL(string_value5,"lte_unknown");
 
   dynamic_enum_t enum_value6 = static_cast< dynamic_enum_t > (-1);
   ::std::string string_value6;
   ::std::stringstream stream6;
   stream6 << enum_value6;
   stream6 >> string_value6;
-  BOOST_CHECK_EQUAL(string_value6,"__unknown__");
+  BOOST_CHECK_EQUAL(string_value6,"lte_unknown");
 
   dynamic_enum_t enum_value7;
   ::std::string string_value7 = "";
   ::std::stringstream stream7;
   stream7 << string_value7;
   stream7 >> enum_value7;
-  BOOST_CHECK_EQUAL(enum_value7,static_cast< dynamic_enum_t > (dynamic_enum::__unknown__));
+  BOOST_CHECK_EQUAL(enum_value7,static_cast< dynamic_enum_t > (dynamic_enum::lte_unknown));
   BOOST_CHECK_EQUAL(enum_value7,static_cast< dynamic_enum_t > (-1));
 
   dynamic_enum_t enum_value8 = static_cast< dynamic_enum_t > (-2);
@@ -140,7 +140,7 @@ BOOST_AUTO_TEST_CASE(test_dynamic_enum) {
   ::std::stringstream stream9;
   stream9 << string_value9;
   stream9 >> enum_value9;
-  BOOST_CHECK_EQUAL(enum_value9,static_cast< dynamic_enum_t > (dynamic_enum::__unknown__ - 1));
+  BOOST_CHECK_EQUAL(enum_value9,static_cast< dynamic_enum_t > (dynamic_enum::lte_unknown - 1));
   BOOST_CHECK_EQUAL(enum_value9,static_cast< dynamic_enum_t > (-2));
 }
 
