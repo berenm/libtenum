@@ -32,10 +32,42 @@ project libtenum : requirements
   <threading>multi
   : default-build debug ;
 
-unit-test test_c98 : test/test_c98.cpp ;
-unit-test test_c0x : test/test_c0x.cpp : <cflags>--std=c++0x ;
+variant debug_c98 : debug : <cflags>--std=c++98 ;
+variant debug_c0x : debug : <cflags>--std=c++0x ;
+variant release_c98 : release : <cflags>--std=c++98 ;
+variant release_c0x : release : <cflags>--std=c++0x ;
 
-alias build : test_c98 test_c0x ;
+unit-test test_static_enum : test/test_static_enum.cpp ;
+unit-test test_dynamic_enum : test/test_dynamic_enum.cpp ;
+unit-test test_bit_flag : test/test_bit_flag.cpp ;
+
+alias tests_debug_c0x
+  : test_static_enum
+    test_dynamic_enum
+    test_bit_flag
+  : <variant>debug_c0x ;
+
+alias tests_release_c0x
+  : test_static_enum
+    test_dynamic_enum
+    test_bit_flag
+  : <variant>release_c0x ;
+  
+alias tests_debug_c98
+  : test_static_enum
+    test_dynamic_enum
+    test_bit_flag
+  : <variant>debug_c98 ;
+
+alias tests_release_c98
+  : test_static_enum
+    test_dynamic_enum
+    test_bit_flag
+  : <variant>release_c98 ;
+
+alias tests : tests_debug_c98 tests_release_c98 tests_debug_c0x tests_release_c0x ;
+
+alias build : tests ;
 
 fhs.install install libtenum
                     :
