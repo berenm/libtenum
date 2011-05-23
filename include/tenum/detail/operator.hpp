@@ -100,12 +100,34 @@
  */
 #ifdef BOOST_NO_SCOPED_ENUMS
 
+#  define TENUM_ENUM_OPERATORS_DECLARATION(type_m)
+#  define TENUM_ENUM_OPERATORS_DEFINITION(type_m)
 #  define TENUM_DYNAMIC_ENUM_OPERATORS_DECLARATION(type_m)
 #  define TENUM_DYNAMIC_ENUM_OPERATORS_DEFINITION(type_m)
 #  define TENUM_BIT_FLAG_OPERATORS_DECLARATION(type_m)
 #  define TENUM_BIT_FLAG_OPERATORS_DEFINITION(type_m)
 
 #else
+
+#  define TENUM_ENUM_OPERATORS_DECLARATION(type_m) \
+static inline bool operator!=(TENUM_TYPE(type_m) const& lhs_in, ::std::uint64_t const rhs_in); \
+static inline bool operator==(TENUM_TYPE(type_m) const& lhs_in, ::std::uint64_t const rhs_in); \
+static inline bool operator!=(::std::uint64_t const lhs_in, TENUM_TYPE(type_m) const& rhs_in); \
+static inline bool operator==(::std::uint64_t const lhs_in, TENUM_TYPE(type_m) const& rhs_in);
+
+#  define TENUM_ENUM_OPERATORS_DEFINITION(type_m) \
+static inline bool operator!=(TENUM_TYPE(type_m) const& lhs_in, ::std::uint64_t const rhs_in) { \
+  return TENUM_CAST_UINT(lhs_in) != TENUM_CAST_UINT(rhs_in); \
+} \
+static inline bool operator==(TENUM_TYPE(type_m) const& lhs_in, ::std::uint64_t const rhs_in) { \
+  return !(lhs_in != rhs_in); \
+} \
+static inline bool operator!=(::std::uint64_t const lhs_in, TENUM_TYPE(type_m) const& rhs_in) { \
+  return rhs_in != lhs_in; \
+} \
+static inline bool operator==(::std::uint64_t const lhs_in, TENUM_TYPE(type_m) const& rhs_in) { \
+  return !(rhs_in != lhs_in); \
+}
 
 #  define TENUM_DYNAMIC_ENUM_OPERATORS_DECLARATION(type_m) \
 static inline TENUM_TYPE(type_m) operator+(TENUM_TYPE(type_m) const lhs_in, ::std::uint64_t const rhs_in); \

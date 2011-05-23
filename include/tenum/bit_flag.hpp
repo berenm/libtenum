@@ -11,7 +11,7 @@
 #include <tenum/static_enum.hpp>
 
 #define TENUM_DEFINE_SERIALIZE_BIT_FLAG_EACH(_,type_m,tuple_m) \
-  if (TENUM_CAST_UINT(value_in & TENUM_VALUE(type_m,TENUM_TUPLE_GET_VALUE(tuple_m))) != 0) { \
+  if (TENUM_CAST_UINT(value_in & TENUM_VALUE(type_m,TENUM_TUPLE_GET_VALUE(tuple_m)))) { \
     stream << TENUM_DEFAULT_SEPARATOR_BIT_FLAG; \
     stream << serialize_impl< false, false >(TENUM_VALUE(type_m,TENUM_TUPLE_GET_VALUE(tuple_m)), \
                                              ::boost::false_type(), \
@@ -65,6 +65,8 @@
 
 #define TENUM_DECLARE_BIT_FLAG(type_m,tuples_m) \
   TENUM_ENUM_DEFINITION(type_m,tuples_m,0) \
+  TENUM_ENUM_OPERATORS_DECLARATION(type_m) \
+  TENUM_ENUM_OPERATORS_DEFINITION(type_m) \
   TENUM_BIT_FLAG_OPERATORS_DECLARATION(type_m) \
   TENUM_BIT_FLAG_OPERATORS_DEFINITION(type_m)
 

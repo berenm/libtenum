@@ -82,7 +82,9 @@
   TENUM_STREAM_OPERATORS_DEFINITION(type_m)
 
 #define TENUM_DECLARE_STATIC_ENUM(type_m,tuples_m) \
-  TENUM_ENUM_DEFINITION(type_m,tuples_m,-1)
+  TENUM_ENUM_DEFINITION(type_m,tuples_m,-1) \
+  TENUM_ENUM_OPERATORS_DECLARATION(type_m) \
+  TENUM_ENUM_OPERATORS_DEFINITION(type_m)
 
 #define TENUM_STATIC_ENUM_I(type_m,tuples_m) \
   TENUM_DECLARE_STATIC_ENUM(type_m,tuples_m) \
