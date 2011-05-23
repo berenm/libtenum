@@ -3,22 +3,23 @@
 
 DESTDIR?=dist/
 VARIANT?=debug
+TOOLSET?=gcc
 
 build: update-tools
 	# building ${VARIANT}...
-	bjam build ${VARIANT} --user-config=./build-config.jam
+	bjam build ${VARIANT} --user-config=./build-config.jam --toolset=${TOOLSET}
 
 clean: update-tools
 	# clean...
-	bjam --clean build --user-config=./build-config.jam
+	bjam --clean build --user-config=./build-config.jam --toolset=${TOOLSET}
 
 install: update-tools
 	# install...
-	bjam install ${VARIANT} --user-config=./build-config.jam --prefix=${DESTDIR}
+	bjam install ${VARIANT} --user-config=./build-config.jam --prefix=${DESTDIR} --toolset=${TOOLSET}
 
 uninstall: update-tools
 	# uninstall...
-	bjam --clean install --user-config=./build-config.jam --prefix=${DESTDIR}
+	bjam --clean install --user-config=./build-config.jam --prefix=${DESTDIR} --toolset=${TOOLSET}
 
 distclean: update-tools clean
 
