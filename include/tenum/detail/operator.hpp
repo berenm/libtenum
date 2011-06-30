@@ -110,22 +110,30 @@
 #else
 
 #  define TENUM_ENUM_OPERATORS_DECLARATION(type_m) \
-static inline bool operator!=(TENUM_TYPE(type_m) const& lhs_in, ::std::uint64_t const rhs_in); \
-static inline bool operator==(TENUM_TYPE(type_m) const& lhs_in, ::std::uint64_t const rhs_in); \
-static inline bool operator!=(::std::uint64_t const lhs_in, TENUM_TYPE(type_m) const& rhs_in); \
-static inline bool operator==(::std::uint64_t const lhs_in, TENUM_TYPE(type_m) const& rhs_in);
+template< typename IntegerType > \
+static inline bool operator!=(TENUM_TYPE(type_m) const& lhs_in, IntegerType const rhs_in); \
+template< typename IntegerType > \
+static inline bool operator==(TENUM_TYPE(type_m) const& lhs_in, IntegerType const rhs_in); \
+template< typename IntegerType > \
+static inline bool operator!=(IntegerType const lhs_in, TENUM_TYPE(type_m) const& rhs_in); \
+template< typename IntegerType > \
+static inline bool operator==(IntegerType const lhs_in, TENUM_TYPE(type_m) const& rhs_in);
 
 #  define TENUM_ENUM_OPERATORS_DEFINITION(type_m) \
-static inline bool operator!=(TENUM_TYPE(type_m) const& lhs_in, ::std::uint64_t const rhs_in) { \
+template< typename IntegerType > \
+static inline bool operator!=(TENUM_TYPE(type_m) const& lhs_in, IntegerType const rhs_in) { \
   return TENUM_CAST_UINT(lhs_in) != TENUM_CAST_UINT(rhs_in); \
 } \
-static inline bool operator==(TENUM_TYPE(type_m) const& lhs_in, ::std::uint64_t const rhs_in) { \
+template< typename IntegerType > \
+static inline bool operator==(TENUM_TYPE(type_m) const& lhs_in, IntegerType const rhs_in) { \
   return !(lhs_in != rhs_in); \
 } \
-static inline bool operator!=(::std::uint64_t const lhs_in, TENUM_TYPE(type_m) const& rhs_in) { \
+template< typename IntegerType > \
+static inline bool operator!=(IntegerType const lhs_in, TENUM_TYPE(type_m) const& rhs_in) { \
   return rhs_in != lhs_in; \
 } \
-static inline bool operator==(::std::uint64_t const lhs_in, TENUM_TYPE(type_m) const& rhs_in) { \
+template< typename IntegerType > \
+static inline bool operator==(IntegerType const lhs_in, TENUM_TYPE(type_m) const& rhs_in) { \
   return !(rhs_in != lhs_in); \
 }
 
