@@ -109,80 +109,142 @@
 
 #else
 
-#  define TENUM_ENUM_OPERATORS_DECLARATION(type_m) \
-template< typename IntegerType > \
-static inline bool operator!=(TENUM_TYPE(type_m) const& lhs_in, IntegerType const rhs_in); \
-template< typename IntegerType > \
-static inline bool operator==(TENUM_TYPE(type_m) const& lhs_in, IntegerType const rhs_in); \
-template< typename IntegerType > \
-static inline bool operator!=(IntegerType const lhs_in, TENUM_TYPE(type_m) const& rhs_in); \
-template< typename IntegerType > \
-static inline bool operator==(IntegerType const lhs_in, TENUM_TYPE(type_m) const& rhs_in);
+#  define TENUM_ENUM_OPERATORS_DECLARATION(type_m)                                              \
+template< typename IntegerType >                                                                \
+static inline bool operator!=(IntegerType const lhs_in, TENUM_TYPE(type_m) const& rhs_in);      \
+template< typename IntegerType >                                                                \
+static inline bool operator!=(TENUM_TYPE(type_m) const& lhs_in, IntegerType const rhs_in);      \
+template< typename IntegerType >                                                                \
+static inline bool operator==(IntegerType const lhs_in, TENUM_TYPE(type_m) const& rhs_in);      \
+template< typename IntegerType >                                                                \
+static inline bool operator==(TENUM_TYPE(type_m) const& lhs_in, IntegerType const rhs_in);      \
+template< typename IntegerType >                                                                \
+static inline IntegerType operator&(IntegerType const lhs_in, TENUM_TYPE(type_m) const rhs_in); \
+template< typename IntegerType >                                                                \
+static inline IntegerType operator&(TENUM_TYPE(type_m) const lhs_in, IntegerType const rhs_in); \
+template< typename IntegerType >                                                                \
+static inline IntegerType operator|(IntegerType const lhs_in, TENUM_TYPE(type_m) const rhs_in); \
+template< typename IntegerType >                                                                \
+static inline IntegerType operator|(TENUM_TYPE(type_m) const lhs_in, IntegerType const rhs_in); \
+template< typename IntegerType >                                                                \
+static inline IntegerType operator^(IntegerType const lhs_in, TENUM_TYPE(type_m) const rhs_in); \
+template< typename IntegerType >                                                                \
+static inline IntegerType operator^(TENUM_TYPE(type_m) const lhs_in, IntegerType const rhs_in); \
+template< typename IntegerType >                                                                \
+static inline IntegerType& operator&=(IntegerType& lhs_in, TENUM_TYPE(type_m) const rhs_in);    \
+template< typename IntegerType >                                                                \
+static inline IntegerType& operator|=(IntegerType& lhs_in, TENUM_TYPE(type_m) const rhs_in);    \
+template< typename IntegerType >                                                                \
+static inline IntegerType& operator^=(IntegerType& lhs_in, TENUM_TYPE(type_m) const rhs_in);    \
 
-#  define TENUM_ENUM_OPERATORS_DEFINITION(type_m) \
-template< typename IntegerType > \
-static inline bool operator!=(TENUM_TYPE(type_m) const& lhs_in, IntegerType const rhs_in) { \
-  return TENUM_CAST_UINT(lhs_in) != TENUM_CAST_UINT(rhs_in); \
-} \
-template< typename IntegerType > \
-static inline bool operator==(TENUM_TYPE(type_m) const& lhs_in, IntegerType const rhs_in) { \
-  return !(lhs_in != rhs_in); \
-} \
-template< typename IntegerType > \
-static inline bool operator!=(IntegerType const lhs_in, TENUM_TYPE(type_m) const& rhs_in) { \
-  return rhs_in != lhs_in; \
-} \
-template< typename IntegerType > \
-static inline bool operator==(IntegerType const lhs_in, TENUM_TYPE(type_m) const& rhs_in) { \
-  return !(rhs_in != lhs_in); \
+#  define TENUM_ENUM_OPERATORS_DEFINITION(type_m)                                                       \
+template< typename IntegerType >                                                                        \
+static inline bool operator!=(IntegerType const lhs_in, TENUM_TYPE(type_m) const& rhs_in) {             \
+  return lhs_in != TENUM_CAST_UINT(rhs_in);                                                             \
+}                                                                                                       \
+template< typename IntegerType >                                                                        \
+static inline bool operator!=(TENUM_TYPE(type_m) const& lhs_in, IntegerType const rhs_in) {             \
+  return TENUM_CAST_UINT(lhs_in) != rhs_in;                                                             \
+}                                                                                                       \
+template< typename IntegerType >                                                                        \
+static inline bool operator==(IntegerType const lhs_in, TENUM_TYPE(type_m) const& rhs_in) {             \
+  return lhs_in == TENUM_CAST_UINT(rhs_in);                                                             \
+}                                                                                                       \
+template< typename IntegerType >                                                                        \
+static inline bool operator==(TENUM_TYPE(type_m) const& lhs_in, IntegerType const rhs_in) {             \
+  return TENUM_CAST_UINT(lhs_in) == rhs_in;                                                             \
+}                                                                                                       \
+template< typename IntegerType >                                                                        \
+static inline IntegerType operator&(IntegerType const lhs_in, TENUM_TYPE(type_m) const rhs_in) {        \
+  return lhs_in & TENUM_CAST_UINT(rhs_in);                                                              \
+}                                                                                                       \
+template< typename IntegerType >                                                                        \
+static inline IntegerType operator&(TENUM_TYPE(type_m) const lhs_in, IntegerType const rhs_in) {        \
+  return TENUM_CAST_UINT(lhs_in) & rhs_in;                                                              \
+}                                                                                                       \
+template< typename IntegerType >                                                                        \
+static inline IntegerType operator|(IntegerType const lhs_in, TENUM_TYPE(type_m) const rhs_in) {        \
+  return lhs_in | TENUM_CAST_UINT(rhs_in);                                                              \
+}                                                                                                       \
+template< typename IntegerType >                                                                        \
+static inline IntegerType operator|(TENUM_TYPE(type_m) const lhs_in, IntegerType const rhs_in) {        \
+  return TENUM_CAST_UINT(lhs_in) | rhs_in;                                                              \
+}                                                                                                       \
+template< typename IntegerType >                                                                        \
+static inline IntegerType operator^(IntegerType const lhs_in, TENUM_TYPE(type_m) const rhs_in) {        \
+  return lhs_in ^ TENUM_CAST_UINT(rhs_in);                                                              \
+}                                                                                                       \
+template< typename IntegerType >                                                                        \
+static inline IntegerType operator^(TENUM_TYPE(type_m) const lhs_in, IntegerType const rhs_in) {        \
+  return TENUM_CAST_UINT(lhs_in) ^ rhs_in;                                                              \
+}                                                                                                       \
+template< typename IntegerType >                                                                        \
+static inline IntegerType& operator&=(IntegerType& lhs_in, TENUM_TYPE(type_m) const rhs_in) {           \
+  return lhs_in = lhs_in & rhs_in;                                                                      \
+}                                                                                                       \
+template< typename IntegerType >                                                                        \
+static inline IntegerType& operator|=(IntegerType& lhs_in, TENUM_TYPE(type_m) const rhs_in) {           \
+  return lhs_in = lhs_in | rhs_in;                                                                      \
+}                                                                                                       \
+template< typename IntegerType >                                                                        \
+static inline IntegerType& operator^=(IntegerType& lhs_in, TENUM_TYPE(type_m) const rhs_in) {           \
+  return lhs_in = lhs_in ^ rhs_in;                                                                      \
+}                                                                                                       \
+
+#  define TENUM_DYNAMIC_ENUM_OPERATORS_DECLARATION(type_m)                                              \
+template< typename IntegerType >                                                                        \
+static inline TENUM_TYPE(type_m) operator+(TENUM_TYPE(type_m) const lhs_in, IntegerType const rhs_in);  \
+template< typename IntegerType >                                                                        \
+static inline TENUM_TYPE(type_m) operator-(TENUM_TYPE(type_m) const lhs_in, IntegerType const rhs_in);  \
+template< typename IntegerType >                                                                        \
+static inline TENUM_TYPE(type_m)& operator+=(TENUM_TYPE(type_m)& lhs_in, IntegerType const rhs_in);     \
+template< typename IntegerType >                                                                        \
+static inline TENUM_TYPE(type_m)& operator-=(TENUM_TYPE(type_m)& lhs_in, IntegerType const rhs_in);
+
+#  define TENUM_DYNAMIC_ENUM_OPERATORS_DEFINITION(type_m)                                               \
+template< typename IntegerType >                                                                        \
+static inline TENUM_TYPE(type_m) operator+(TENUM_TYPE(type_m) const lhs_in, IntegerType const rhs_in) { \
+  return TENUM_OPERATOR_ADD(type_m,lhs_in,rhs_in);                                                      \
+}                                                                                                       \
+template< typename IntegerType >                                                                        \
+static inline TENUM_TYPE(type_m) operator-(TENUM_TYPE(type_m) const lhs_in, IntegerType const rhs_in) { \
+  return TENUM_OPERATOR_SUB(type_m,lhs_in,rhs_in);                                                      \
+}                                                                                                       \
+template< typename IntegerType >                                                                        \
+static inline TENUM_TYPE(type_m)& operator+=(TENUM_TYPE(type_m)& lhs_in, IntegerType const rhs_in) {    \
+  return lhs_in = lhs_in + rhs_in;                                                                      \
+}                                                                                                       \
+template< typename IntegerType >                                                                        \
+static inline TENUM_TYPE(type_m)& operator-=(TENUM_TYPE(type_m)& lhs_in, IntegerType const rhs_in) {    \
+  return lhs_in = lhs_in - rhs_in;                                                                      \
 }
 
-#  define TENUM_DYNAMIC_ENUM_OPERATORS_DECLARATION(type_m) \
-static inline TENUM_TYPE(type_m) operator+(TENUM_TYPE(type_m) const lhs_in, ::std::uint64_t const rhs_in); \
-static inline TENUM_TYPE(type_m) operator-(TENUM_TYPE(type_m) const lhs_in, ::std::uint64_t const rhs_in); \
-static inline TENUM_TYPE(type_m)& operator+=(TENUM_TYPE(type_m)& lhs_in, ::std::uint64_t const rhs_in); \
-static inline TENUM_TYPE(type_m)& operator-=(TENUM_TYPE(type_m)& lhs_in, ::std::uint64_t const rhs_in);
-
-#  define TENUM_DYNAMIC_ENUM_OPERATORS_DEFINITION(type_m) \
-static inline TENUM_TYPE(type_m) operator+(TENUM_TYPE(type_m) const lhs_in, ::std::uint64_t const rhs_in) { \
-  return TENUM_OPERATOR_ADD(type_m,lhs_in,rhs_in); \
-} \
-static inline TENUM_TYPE(type_m) operator-(TENUM_TYPE(type_m) const lhs_in, ::std::uint64_t const rhs_in) { \
-  return TENUM_OPERATOR_SUB(type_m,lhs_in,rhs_in); \
-} \
-static inline TENUM_TYPE(type_m)& operator+=(TENUM_TYPE(type_m)& lhs_in, ::std::uint64_t const rhs_in) { \
-  return lhs_in = lhs_in + rhs_in; \
-} \
-static inline TENUM_TYPE(type_m)& operator-=(TENUM_TYPE(type_m)& lhs_in, ::std::uint64_t const rhs_in) { \
-  return lhs_in = lhs_in - rhs_in; \
-}
-
-#  define TENUM_BIT_FLAG_OPERATORS_DECLARATION(type_m) \
-static inline TENUM_TYPE(type_m) operator&(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in); \
-static inline TENUM_TYPE(type_m) operator|(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in); \
-static inline TENUM_TYPE(type_m) operator^(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in); \
-static inline TENUM_TYPE(type_m)& operator&=(TENUM_TYPE(type_m)& lhs_in, TENUM_TYPE(type_m) const rhs_in); \
-static inline TENUM_TYPE(type_m)& operator|=(TENUM_TYPE(type_m)& lhs_in, TENUM_TYPE(type_m) const rhs_in); \
+#  define TENUM_BIT_FLAG_OPERATORS_DECLARATION(type_m)                                                          \
+static inline TENUM_TYPE(type_m) operator&(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in);   \
+static inline TENUM_TYPE(type_m) operator|(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in);   \
+static inline TENUM_TYPE(type_m) operator^(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in);   \
+static inline TENUM_TYPE(type_m)& operator&=(TENUM_TYPE(type_m)& lhs_in, TENUM_TYPE(type_m) const rhs_in);      \
+static inline TENUM_TYPE(type_m)& operator|=(TENUM_TYPE(type_m)& lhs_in, TENUM_TYPE(type_m) const rhs_in);      \
 static inline TENUM_TYPE(type_m)& operator^=(TENUM_TYPE(type_m)& lhs_in, TENUM_TYPE(type_m) const rhs_in);
 
-#  define TENUM_BIT_FLAG_OPERATORS_DEFINITION(type_m) \
-static inline TENUM_TYPE(type_m) operator&(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in) { \
-  return TENUM_OPERATOR_BIT_AND(type_m,lhs_in,rhs_in); \
-} \
-static inline TENUM_TYPE(type_m) operator|(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in) { \
-  return TENUM_OPERATOR_BIT_OR(type_m,lhs_in,rhs_in); \
-} \
-static inline TENUM_TYPE(type_m) operator^(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in) { \
-  return TENUM_OPERATOR_BIT_XOR(type_m,lhs_in,rhs_in); \
-} \
-static inline TENUM_TYPE(type_m)& operator&=(TENUM_TYPE(type_m)& lhs_in, TENUM_TYPE(type_m) const rhs_in) { \
-  return lhs_in = lhs_in & rhs_in; \
-} \
-static inline TENUM_TYPE(type_m)& operator|=(TENUM_TYPE(type_m)& lhs_in, TENUM_TYPE(type_m) const rhs_in) { \
-  return lhs_in = lhs_in | rhs_in; \
-} \
-static inline TENUM_TYPE(type_m)& operator^=(TENUM_TYPE(type_m)& lhs_in, TENUM_TYPE(type_m) const rhs_in) { \
-  return lhs_in = lhs_in ^ rhs_in; \
+#  define TENUM_BIT_FLAG_OPERATORS_DEFINITION(type_m)                                                           \
+static inline TENUM_TYPE(type_m) operator&(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in) {  \
+  return TENUM_OPERATOR_BIT_AND(type_m,lhs_in,rhs_in);                                                          \
+}                                                                                                               \
+static inline TENUM_TYPE(type_m) operator|(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in) {  \
+  return TENUM_OPERATOR_BIT_OR(type_m,lhs_in,rhs_in);                                                           \
+}                                                                                                               \
+static inline TENUM_TYPE(type_m) operator^(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in) {  \
+  return TENUM_OPERATOR_BIT_XOR(type_m,lhs_in,rhs_in);                                                          \
+}                                                                                                               \
+static inline TENUM_TYPE(type_m)& operator&=(TENUM_TYPE(type_m)& lhs_in, TENUM_TYPE(type_m) const rhs_in) {     \
+  return lhs_in = lhs_in & rhs_in;                                                                              \
+}                                                                                                               \
+static inline TENUM_TYPE(type_m)& operator|=(TENUM_TYPE(type_m)& lhs_in, TENUM_TYPE(type_m) const rhs_in) {     \
+  return lhs_in = lhs_in | rhs_in;                                                                              \
+}                                                                                                               \
+static inline TENUM_TYPE(type_m)& operator^=(TENUM_TYPE(type_m)& lhs_in, TENUM_TYPE(type_m) const rhs_in) {     \
+  return lhs_in = lhs_in ^ rhs_in;                                                                              \
 }
 
 #endif /* BOOST_NO_SCOPED_ENUMS */

@@ -5,7 +5,7 @@
  * See accompanying file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt
  */
 
-#define BOOST_TEST_MODULE TENUM_test
+#define BOOST_TEST_MODULE tenum_static_enum_tests
 #include <boost/test/unit_test.hpp>
 
 #define TENUM_USE_SHORTCUTS 1
@@ -71,6 +71,65 @@ BOOST_AUTO_TEST_CASE(test_static_enum_6) {
   stream >> enum_value;
   BOOST_CHECK_EQUAL(enum_value,static_cast< static_enum_t > (static_enum::lte_unknown));
   BOOST_CHECK_EQUAL(enum_value,static_cast< static_enum_t > (-1));
+}
+
+BOOST_AUTO_TEST_CASE(test_static_enum_integers_1) {
+  static_enum_t enum_value = static_enum::value3;
+  ::boost::uint64_t integer_value = 2;
+  BOOST_CHECK(integer_value == enum_value);
+  BOOST_CHECK(enum_value == integer_value);
+}
+
+BOOST_AUTO_TEST_CASE(test_static_enum_integers_2) {
+  static_enum_t enum_value = static_enum::value3;
+  ::boost::uint64_t integer_value = 0;
+  BOOST_CHECK(integer_value != enum_value);
+  BOOST_CHECK(enum_value != integer_value);
+}
+
+BOOST_AUTO_TEST_CASE(test_static_enum_integers_3) {
+  static_enum_t enum_value = static_enum::value3;
+  ::boost::uint64_t integer_value1 = 0b011 & enum_value;
+  BOOST_CHECK(integer_value1 == 0b010);
+  ::boost::uint64_t integer_value2 = enum_value & 0b011;
+  BOOST_CHECK(integer_value2 == 0b010);
+}
+
+BOOST_AUTO_TEST_CASE(test_static_enum_integers_4) {
+  static_enum_t enum_value = static_enum::value3;
+  ::boost::uint64_t integer_value1 = 0b001 | enum_value;
+  BOOST_CHECK(integer_value1 == 0b011);
+  ::boost::uint64_t integer_value2 = enum_value | 0b001;
+  BOOST_CHECK(integer_value2 == 0b011);
+}
+
+BOOST_AUTO_TEST_CASE(test_static_enum_integers_5) {
+  static_enum_t enum_value = static_enum::value3;
+  ::boost::uint64_t integer_value1 = 0b011 ^ enum_value;
+  BOOST_CHECK(integer_value1 == 0b001);
+  ::boost::uint64_t integer_value2 = enum_value ^ 0b011;
+  BOOST_CHECK(integer_value2 == 0b001);
+}
+
+BOOST_AUTO_TEST_CASE(test_static_enum_integers_6) {
+  static_enum_t enum_value = static_enum::value3;
+  ::boost::uint64_t integer_value = 0b011;
+  integer_value &= enum_value;
+  BOOST_CHECK(integer_value == 0b010);
+}
+
+BOOST_AUTO_TEST_CASE(test_static_enum_integers_7) {
+  static_enum_t enum_value = static_enum::value3;
+  ::boost::uint64_t integer_value = 0b001;
+  integer_value |= enum_value;
+  BOOST_CHECK(integer_value == 0b011);
+}
+
+BOOST_AUTO_TEST_CASE(test_static_enum_integers_8) {
+  static_enum_t enum_value = static_enum::value3;
+  ::boost::uint64_t integer_value = 0b011;
+  integer_value ^= enum_value;
+  BOOST_CHECK(integer_value == 0b001);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
