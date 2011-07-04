@@ -2,6 +2,7 @@ libtenum : a metaprogramming library to make enums a little bit nicer
 ======================================================================
 
 https://www.ohloh.net/p/libtenum
+
 http://berenm.github.com/libtenum
 
 GOALS
