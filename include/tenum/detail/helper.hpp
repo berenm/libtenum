@@ -15,6 +15,8 @@
 #include <boost/type_traits/integral_constant.hpp>
 #include <boost/static_assert.hpp>
 
+#include <string>
+
 namespace tenum {
 
   /**
