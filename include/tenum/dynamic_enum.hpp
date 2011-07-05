@@ -11,13 +11,19 @@
 #include <boost/lexical_cast.hpp>
 #include <tenum/static_enum.hpp>
 
-#define TENUM_DEFINE_SERIALIZE_DYNAMIC(type_m,tuples_m) \
+#define TENUM_SERIALIZE_DYNAMIC_SIGNATURE(type_m,tuples_m) \
   template< > \
   template< > \
   inline ::std::string \
   enum_helper< TENUM_TYPE(type_m) >::serialize_impl< true, false >(TENUM_TYPE(type_m) const value_in, \
                                                                    ::boost::true_type const&, \
-                                                                   ::boost::false_type const&) { \
+                                                                   ::boost::false_type const&)
+
+#define TENUM_SERIALIZE_DYNAMIC_DECLARATION(type_m,tuples_m) \
+  TENUM_SERIALIZE_DYNAMIC_SIGNATURE(type_m,tuples_m);
+
+#define TENUM_SERIALIZE_DYNAMIC_DEFINITION(type_m,tuples_m) \
+  TENUM_SERIALIZE_DYNAMIC_SIGNATURE(type_m,tuples_m) { \
     TENUM_TYPE(type_m) base_value = get_base_of(value_in); \
     \
     ::std::ostringstream stream; \
@@ -31,13 +37,19 @@
     return stream.str(); \
   }
 
-#define TENUM_DEFINE_DESERIALIZE_DYNAMIC(type_m,tuples_m) \
+#define TENUM_DESERIALIZE_DYNAMIC_SIGNATURE(type_m,tuples_m) \
   template< > \
   template< > \
   inline TENUM_TYPE(type_m) \
   enum_helper< TENUM_TYPE(type_m) >::deserialize_impl< true, false >(::std::string const& value_in, \
                                                                      ::boost::true_type const&, \
-                                                                     ::boost::false_type const&) { \
+                                                                     ::boost::false_type const&)
+
+#define TENUM_DESERIALIZE_DYNAMIC_DECLARATION(type_m,tuples_m) \
+  TENUM_DESERIALIZE_DYNAMIC_SIGNATURE(type_m,tuples_m);
+
+#define TENUM_DESERIALIZE_DYNAMIC_DEFINITION(type_m,tuples_m) \
+  TENUM_DESERIALIZE_DYNAMIC_SIGNATURE(type_m,tuples_m) { \
     ::std::size_t separator_pos = value_in.find(TENUM_DEFAULT_SEPARATOR_DYNAMIC_ENUM); \
     TENUM_TYPE(type_m) base_value = deserialize_impl< false, false >(value_in.substr(0, separator_pos), \
                                                                      ::boost::false_type(), \
@@ -51,27 +63,41 @@
     return TENUM_CAST_ENUM(type_m,base_value + offset); \
   }
 
-#define TENUM_DECLARE_DYNAMIC_ENUM_SERIALIZATION(type_m,tuples_m) \
+#define TENUM_DYNAMIC_ENUM_SERIALIZATION_DECLARATION(type_m,tuples_m) \
   namespace tenum { \
     template< > struct is_dynamic< TENUM_TYPE(type_m) > : ::boost::true_type {}; \
+    TENUM_GET_BASE_OF_DECLARATION(type_m,tuples_m) \
+    TENUM_SERIALIZE_DECLARATION(type_m,tuples_m) \
+    TENUM_DESERIALIZE_DECLARATION(type_m,tuples_m) \
+    TENUM_SERIALIZE_DYNAMIC_DECLARATION(type_m,tuples_m) \
+    TENUM_DESERIALIZE_DYNAMIC_DECLARATION(type_m,tuples_m) \
+  } \
+  TENUM_STREAM_OPERATORS_DECLARATION(type_m)
+
+#define TENUM_DYNAMIC_ENUM_SERIALIZATION_DEFINITION(type_m,tuples_m) \
+  namespace tenum { \
     TENUM_GET_BASE_OF_DEFINITION(type_m,tuples_m) \
-    TENUM_DEFINE_SERIALIZE(type_m,tuples_m) \
-    TENUM_DEFINE_DESERIALIZE(type_m,tuples_m) \
-    TENUM_DEFINE_SERIALIZE_DYNAMIC(type_m,tuples_m) \
-    TENUM_DEFINE_DESERIALIZE_DYNAMIC(type_m,tuples_m) \
+    TENUM_SERIALIZE_DEFINITION(type_m,tuples_m) \
+    TENUM_DESERIALIZE_DEFINITION(type_m,tuples_m) \
+    TENUM_SERIALIZE_DYNAMIC_DEFINITION(type_m,tuples_m) \
+    TENUM_DESERIALIZE_DYNAMIC_DEFINITION(type_m,tuples_m) \
   } \
   TENUM_STREAM_OPERATORS_DEFINITION(type_m)
 
-#define TENUM_DECLARE_DYNAMIC_ENUM(type_m,tuples_m) \
+#define TENUM_DYNAMIC_ENUM_DECLARATION(type_m,tuples_m) \
   TENUM_ENUM_DEFINITION(type_m,tuples_m,-1) \
   TENUM_ENUM_OPERATORS_DECLARATION(type_m) \
-  TENUM_ENUM_OPERATORS_DEFINITION(type_m) \
   TENUM_DYNAMIC_ENUM_OPERATORS_DECLARATION(type_m) \
-  TENUM_DYNAMIC_ENUM_OPERATORS_DEFINITION(type_m)
+  TENUM_DYNAMIC_ENUM_SERIALIZATION_DECLARATION(type_m,tuples_m)
+
+#define TENUM_DYNAMIC_ENUM_DEFINITION(type_m,tuples_m) \
+  TENUM_ENUM_OPERATORS_DEFINITION(type_m) \
+  TENUM_DYNAMIC_ENUM_OPERATORS_DEFINITION(type_m) \
+  TENUM_DYNAMIC_ENUM_SERIALIZATION_DEFINITION(type_m,tuples_m)
 
 #define TENUM_DYNAMIC_ENUM_I(type_m,tuples_m) \
-  TENUM_DECLARE_DYNAMIC_ENUM(type_m,tuples_m) \
-  TENUM_DECLARE_DYNAMIC_ENUM_SERIALIZATION(type_m,tuples_m)
+  TENUM_DYNAMIC_ENUM_DECLARATION(type_m,tuples_m) \
+  TENUM_DYNAMIC_ENUM_DEFINITION(type_m,tuples_m)
 
 #define TENUM_DYNAMIC_ENUM(type_m,tuples_m) \
   TENUM_DYNAMIC_ENUM_I(type_m,tuples_m)

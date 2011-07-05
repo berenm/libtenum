@@ -23,9 +23,9 @@ project libtenum : requirements
   <library>boost_date_time
   <library>boost_system
   <library>boost_test_exec_monitor
-  <include>include/
   
   $(INCLUDES)
+  <include>include/
   <tag>@$(__name__).tag
   <address-model>32:<instruction-set>i686
 

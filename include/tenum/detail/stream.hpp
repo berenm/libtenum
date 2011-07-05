@@ -14,6 +14,12 @@
 
 #include <tenum/detail/helper.hpp>
 
+#define TENUM_STREAM_OPERATORS_DECLARATION(type_m) \
+template< typename OutputStream > \
+static inline OutputStream& operator<<(OutputStream& ostream, TENUM_TYPE(type_m) const enum_in); \
+template< typename InputStream > \
+static inline InputStream& operator>>(InputStream& istream, TENUM_TYPE(type_m)& enum_out);
+
 /**
  * @def TENUM_STREAM_OPERATORS_DEFINITION(type_m)
  * @brief Expands to templated stream operator definition for the type_m enum.
