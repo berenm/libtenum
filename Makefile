@@ -7,19 +7,19 @@ TOOLSET?=gcc
 
 build: update-tools
 	# building ${VARIANT}...
-	bjam build ${VARIANT} --user-config=./build-config.jam --toolset=${TOOLSET}
+	bjam build ${VARIANT} --user-config=./build-config.jam --toolset=${TOOLSET} -j2
 
 clean: update-tools
 	# clean...
-	bjam --clean build --user-config=./build-config.jam --toolset=${TOOLSET}
+	bjam --clean build --user-config=./build-config.jam --toolset=${TOOLSET} -j2
 
 install: update-tools
 	# install...
-	bjam install ${VARIANT} --user-config=./build-config.jam --prefix=${DESTDIR} --toolset=${TOOLSET}
+	bjam install ${VARIANT} --user-config=./build-config.jam --prefix=${DESTDIR} --toolset=${TOOLSET} -j2
 
 uninstall: update-tools
 	# uninstall...
-	bjam --clean install --user-config=./build-config.jam --prefix=${DESTDIR} --toolset=${TOOLSET}
+	bjam --clean install --user-config=./build-config.jam --prefix=${DESTDIR} --toolset=${TOOLSET} -j2
 
 distclean: update-tools clean
 
