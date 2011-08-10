@@ -1,18 +1,19 @@
 # Distributed under the Boost Software License, Version 1.0.
 # See accompanying file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt
 
-import fhs ;
+import multiarch ;
 import testing ;
+import path ;
 
-lib boost_thread : : $(LIB_SEARCH) ;
-lib boost_program_options : : $(LIB_SEARCH) ;
-lib boost_filesystem : : $(LIB_SEARCH) ;
-lib boost_regex : : $(LIB_SEARCH) ;
-lib boost_iostreams : : $(LIB_SEARCH) ;
-lib boost_date_time : : $(LIB_SEARCH) ;
-lib boost_system : : $(LIB_SEARCH) ;
-lib boost_log : : $(LIB_SEARCH) ;
-lib boost_test_exec_monitor : : $(LIB_SEARCH) ;
+lib boost_thread : : [ multiarch.search-path ] ;
+lib boost_program_options : : [ multiarch.search-path ] ;
+lib boost_filesystem : : [ multiarch.search-path ] ;
+lib boost_regex : : [ multiarch.search-path ] ;
+lib boost_iostreams : : [ multiarch.search-path ] ;
+lib boost_date_time : : [ multiarch.search-path ] ;
+lib boost_system : : [ multiarch.search-path ] ;
+lib boost_log : : [ multiarch.search-path ] ;
+lib boost_test_exec_monitor : : [ multiarch.search-path ] ;
 
 project libtenum : requirements
   <library>boost_thread
@@ -27,7 +28,6 @@ project libtenum : requirements
   $(INCLUDES)
   <include>include/
   <tag>@$(__name__).tag
-  <address-model>32:<instruction-set>i686
 
   <threading>multi
   : default-build debug ;
@@ -69,10 +69,8 @@ alias tests : tests_debug_c98 tests_release_c98 tests_debug_c0x tests_release_c0
 
 alias build : tests ;
 
-fhs.install install libtenum
+multiarch.install install libtenum
                     :
                     :
                     : [ path.glob-tree include/ : *.* : ]
-                    : <install-source-root>./include/
-                      <target-address-models>32
-                      <target-address-models>64 ;
+                    : <install-source-root>./include/ ;
