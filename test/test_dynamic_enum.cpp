@@ -14,7 +14,8 @@
 lte_dynamic_enum(dynamic_enum,
     lte_ev(value1,2)
     lte_evn(value2,5,"test_value2")
-    lte_e(value3)
+    lte_e(value3),
+    value3+10
 )
 
 BOOST_AUTO_TEST_SUITE(dynamic_enum_tests)
@@ -82,26 +83,47 @@ BOOST_AUTO_TEST_CASE(test_dynamic_enum_7) {
   stream << string_value;
   stream >> enum_value;
   BOOST_CHECK_EQUAL(enum_value,static_cast< dynamic_enum_t > (dynamic_enum::lte_unknown));
-  BOOST_CHECK_EQUAL(enum_value,static_cast< dynamic_enum_t > (~0ul));
+  BOOST_CHECK_EQUAL(enum_value,static_cast< dynamic_enum_t > (static_cast< int >(dynamic_enum::value3+10)));
 }
 
 BOOST_AUTO_TEST_CASE(test_dynamic_enum_8) {
-  dynamic_enum_t enum_value = static_cast< dynamic_enum_t > (-2);
+  dynamic_enum_t enum_value = static_cast< dynamic_enum_t > (dynamic_enum::value3+9);
   ::std::string string_value;
   ::std::stringstream stream;
   stream << enum_value;
   stream >> string_value;
-  BOOST_CHECK_EQUAL(string_value,"value3#18446744073709551608");
+  BOOST_CHECK_EQUAL(string_value,"value3#9");
 }
 
 BOOST_AUTO_TEST_CASE(test_dynamic_enum_9) {
   dynamic_enum_t enum_value;
-  ::std::string string_value = "value3#18446744073709551608";
+  ::std::string string_value = "value3#9";
   ::std::stringstream stream;
   stream << string_value;
   stream >> enum_value;
   BOOST_CHECK_EQUAL(enum_value,static_cast< dynamic_enum_t > (dynamic_enum::lte_unknown - 1));
-  BOOST_CHECK_EQUAL(enum_value,static_cast< dynamic_enum_t > (-2));
+  BOOST_CHECK_EQUAL(enum_value,static_cast< dynamic_enum_t > (static_cast< int >(dynamic_enum::value3+9)));
+}
+BOOST_AUTO_TEST_CASE(test_dynamic_enum_10) {
+  dynamic_enum_t enum_value;
+  ::std::string string_value = "value3#123456789";
+  ::std::stringstream stream;
+  stream << string_value;
+  stream >> enum_value;
+  BOOST_CHECK_EQUAL(enum_value,static_cast< dynamic_enum_t > (dynamic_enum::lte_unknown));
+  BOOST_CHECK_EQUAL(enum_value,static_cast< dynamic_enum_t > (static_cast< int >(dynamic_enum::value3+10)));
+}
+BOOST_AUTO_TEST_CASE(test_dynamic_enum_11) {
+  dynamic_enum_t enum_value;
+  ::std::string string_value = "value1#3";
+  ::std::stringstream stream;
+  stream << string_value;
+  stream >> enum_value;
+
+  ::std::stringstream outstream;
+  outstream << enum_value;
+  outstream >> string_value;
+  BOOST_CHECK_EQUAL(string_value,"test_value2");
 }
 
 BOOST_AUTO_TEST_CASE(test_dynamic_enum_integers_1) {

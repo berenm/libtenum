@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE(test_static_enum_6) {
   stream << string_value;
   stream >> enum_value;
   BOOST_CHECK_EQUAL(enum_value,static_cast< static_enum_t > (static_enum::lte_unknown));
-  BOOST_CHECK_EQUAL(enum_value,static_cast< static_enum_t > (-1));
+  BOOST_CHECK_EQUAL(enum_value,static_cast< static_enum_t > (static_cast< int >(static_enum::lte_unknown)));
 }
 
 BOOST_AUTO_TEST_CASE(test_static_enum_integers_1) {
