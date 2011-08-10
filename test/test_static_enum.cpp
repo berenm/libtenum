@@ -15,7 +15,7 @@ lte_enum(static_enum,
     lte_ev(value1,2)
     lte_e(value2)
     lte_e(value3)
-    ,0)
+)
 
 BOOST_AUTO_TEST_SUITE(static_enum_tests)
 
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE(test_static_enum_6) {
   stream << string_value;
   stream >> enum_value;
   BOOST_CHECK_EQUAL(enum_value,static_cast< static_enum_t > (static_enum::lte_unknown));
-  BOOST_CHECK_EQUAL(enum_value,static_cast< static_enum_t > (0));
+  BOOST_CHECK_EQUAL(enum_value,static_cast< static_enum_t > (-1));
 }
 
 BOOST_AUTO_TEST_CASE(test_static_enum_integers_1) {
