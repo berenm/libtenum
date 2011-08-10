@@ -91,8 +91,8 @@
   } \
   TENUM_STREAM_OPERATORS_DEFINITION(type_m)
 
-#define TENUM_DYNAMIC_ENUM_DECLARATION(type_m,tuples_m,unknown_tuple_m) \
-  TENUM_ENUM_DEFINITION(type_m,BOOST_PP_SEQ_PUSH_BACK(tuples_m,unknown_tuple_m)) \
+#define TENUM_DYNAMIC_ENUM_DECLARATION(type_m,tuples_m,unknown_tuple_m,underlying_m) \
+  TENUM_ENUM_DEFINITION(type_m,BOOST_PP_SEQ_PUSH_BACK(tuples_m,unknown_tuple_m),underlying_m) \
   TENUM_ENUM_OPERATORS_DECLARATION(type_m) \
   TENUM_DYNAMIC_ENUM_OPERATORS_DECLARATION(type_m) \
   TENUM_DYNAMIC_ENUM_SERIALIZATION_DECLARATION(type_m,tuples_m)
@@ -102,13 +102,13 @@
   TENUM_DYNAMIC_ENUM_OPERATORS_DEFINITION(type_m) \
   TENUM_DYNAMIC_ENUM_SERIALIZATION_DEFINITION(type_m,tuples_m)
 
-#define TENUM_DYNAMIC_ENUM_I(type_m,tuples_m,unknown_tuple_m) \
-  TENUM_DYNAMIC_ENUM_DECLARATION(type_m,tuples_m,unknown_tuple_m) \
+#define TENUM_DYNAMIC_ENUM_I(type_m,tuples_m,unknown_tuple_m,underlying_m) \
+  TENUM_DYNAMIC_ENUM_DECLARATION(type_m,tuples_m,unknown_tuple_m,underlying_m) \
   TENUM_DYNAMIC_ENUM_DEFINITION(type_m,tuples_m)
 
-#define TENUM_DYNAMIC_ENUM(type_m,tuples_m,unknown_value_m) \
-  TENUM_DYNAMIC_ENUM_I(type_m,tuples_m,TENUM_TUPLE_VALUED(lte_unknown,unknown_value_m))
+#define TENUM_DYNAMIC_ENUM(type_m,tuples_m,unknown_value_m,underlying_m) \
+  TENUM_DYNAMIC_ENUM_I(type_m,tuples_m,TENUM_TUPLE_VALUED(lte_unknown,unknown_value_m),:underlying_m)
 #define TENUM_SIMPLE_DYNAMIC_ENUM(type_m,values_m) \
-  TENUM_DYNAMIC_ENUM_I(type_m,TENUM_ENUM_VALUES_COMPLETE(values_m),TENUM_TUPLE(lte_unknown))
+  TENUM_DYNAMIC_ENUM_I(type_m,TENUM_ENUM_VALUES_COMPLETE(values_m),TENUM_TUPLE(lte_unknown),BOOST_PP_EMPTY())
 
 #endif /* TENUM_DYNAMIC_ENUM_HPP_ */

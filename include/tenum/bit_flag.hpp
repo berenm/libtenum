@@ -85,8 +85,8 @@
   } \
   TENUM_STREAM_OPERATORS_DEFINITION(type_m)
 
-#define TENUM_BIT_FLAG_DECLARATION(type_m,tuples_m) \
-  TENUM_ENUM_DEFINITION(type_m,BOOST_PP_SEQ_PUSH_FRONT(tuples_m,TENUM_TUPLE_VALUED(lte_unknown,0))) \
+#define TENUM_BIT_FLAG_DECLARATION(type_m,tuples_m,underlying_m) \
+  TENUM_ENUM_DEFINITION(type_m,BOOST_PP_SEQ_PUSH_FRONT(tuples_m,TENUM_TUPLE_VALUED(lte_unknown,0)),underlying_m) \
   TENUM_ENUM_OPERATORS_DECLARATION(type_m) \
   TENUM_BIT_FLAG_OPERATORS_DECLARATION(type_m) \
   TENUM_BIT_FLAG_SERIALIZATION_DECLARATION(type_m,tuples_m)
@@ -96,13 +96,13 @@
   TENUM_BIT_FLAG_OPERATORS_DEFINITION(type_m) \
   TENUM_BIT_FLAG_SERIALIZATION_DEFINITION(type_m,tuples_m)
 
-#define TENUM_BIT_FLAG_I(type_m,tuples_m) \
-  TENUM_BIT_FLAG_DECLARATION(type_m,tuples_m) \
+#define TENUM_BIT_FLAG_I(type_m,tuples_m,underlying_m) \
+  TENUM_BIT_FLAG_DECLARATION(type_m,tuples_m,underlying_m) \
   TENUM_BIT_FLAG_DEFINITION(type_m,tuples_m)
 
-#define TENUM_BIT_FLAG(type_m,tuples_m) \
-  TENUM_BIT_FLAG_I(type_m,tuples_m)
+#define TENUM_BIT_FLAG(type_m,tuples_m,underlying_m) \
+  TENUM_BIT_FLAG_I(type_m,tuples_m,:underlying_m)
 #define TENUM_SIMPLE_BIT_FLAG(type_m,values_m) \
-  TENUM_BIT_FLAG_I(type_m,TENUM_ENUM_VALUES_COMPLETE(values_m))
+  TENUM_BIT_FLAG_I(type_m,TENUM_ENUM_VALUES_COMPLETE(values_m),BOOST_PP_EMPTY())
 
 #endif /* TENUM_BIT_FLAG_HPP_ */

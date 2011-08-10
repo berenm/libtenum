@@ -14,7 +14,8 @@
 lte_bit_flag(bit_flag,
     lte_ev(bit1,0b001)
     lte_ev(bit2,0b010)
-    lte_ev(bit3,0b100)
+    lte_ev(bit3,0b100),
+    ::boost::uint16_t
 )
 
 BOOST_AUTO_TEST_SUITE(bit_flag_tests)

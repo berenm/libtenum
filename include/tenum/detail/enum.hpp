@@ -140,9 +140,9 @@
 
 #ifdef BOOST_NO_SCOPED_ENUMS
 
-#  define TENUM_ENUM_DEFINITION(type_m,tuples_m) \
+#  define TENUM_ENUM_DEFINITION(type_m,tuples_m,underlying_m) \
 struct type_m { \
-    enum BOOST_PP_CAT(type_m,_e) { \
+    enum BOOST_PP_CAT(type_m,_e) underlying_m { \
       TENUM_ENUM_VALUES_DEFINITION(tuples_m) \
     }; \
 }; \
@@ -150,8 +150,8 @@ typedef type_m :: BOOST_PP_CAT(type_m,_e) TENUM_TYPE(type_m);
 
 #else
 
-#  define TENUM_ENUM_DEFINITION(type_m,tuples_m) \
-enum class type_m { \
+#  define TENUM_ENUM_DEFINITION(type_m,tuples_m,underlying_m) \
+enum class type_m underlying_m { \
   TENUM_ENUM_VALUES_DEFINITION(tuples_m) \
 }; \
 typedef type_m TENUM_TYPE(type_m);

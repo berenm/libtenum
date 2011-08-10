@@ -14,7 +14,8 @@
 lte_enum(static_enum,
     lte_ev(value1,2)
     lte_e(value2)
-    lte_e(value3)
+    lte_e(value3),
+    ::boost::uint8_t
 )
 
 BOOST_AUTO_TEST_SUITE(static_enum_tests)

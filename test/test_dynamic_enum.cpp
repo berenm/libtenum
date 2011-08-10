@@ -15,7 +15,8 @@ lte_dynamic_enum(dynamic_enum,
     lte_ev(value1,2)
     lte_evn(value2,5,"test_value2")
     lte_e(value3),
-    value3+10
+    value3+10,
+    ::boost::uint16_t
 )
 
 BOOST_AUTO_TEST_SUITE(dynamic_enum_tests)
