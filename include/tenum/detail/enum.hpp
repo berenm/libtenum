@@ -142,7 +142,7 @@
 
 #  define TENUM_ENUM_DEFINITION(type_m,tuples_m,unknown_integer_value_m) \
 struct type_m { \
-    enum BOOST_PP_CAT(type_m,_e) { \
+    enum BOOST_PP_CAT(type_m,_e) : ::boost::uint64_t { \
       TENUM_ENUM_VALUES_DEFINITION(BOOST_PP_SEQ_PUSH_FRONT(tuples_m,TENUM_TUPLE_VALUED(lte_unknown,unknown_integer_value_m))) \
     }; \
 }; \
@@ -151,7 +151,7 @@ typedef type_m :: BOOST_PP_CAT(type_m,_e) TENUM_TYPE(type_m);
 #else
 
 #  define TENUM_ENUM_DEFINITION(type_m,tuples_m,unknown_integer_value_m) \
-enum class type_m { \
+enum class type_m : ::boost::uint64_t { \
   TENUM_ENUM_VALUES_DEFINITION(BOOST_PP_SEQ_PUSH_FRONT(tuples_m,TENUM_TUPLE_VALUED(lte_unknown,unknown_integer_value_m))) \
 }; \
 typedef type_m TENUM_TYPE(type_m);

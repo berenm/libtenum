@@ -84,8 +84,8 @@
   } \
   TENUM_STREAM_OPERATORS_DEFINITION(type_m)
 
-#define TENUM_DYNAMIC_ENUM_DECLARATION(type_m,tuples_m) \
-  TENUM_ENUM_DEFINITION(type_m,tuples_m,-1) \
+#define TENUM_DYNAMIC_ENUM_DECLARATION(type_m,tuples_m,unknown_value_m) \
+  TENUM_ENUM_DEFINITION(type_m,tuples_m,unknown_value_m) \
   TENUM_ENUM_OPERATORS_DECLARATION(type_m) \
   TENUM_DYNAMIC_ENUM_OPERATORS_DECLARATION(type_m) \
   TENUM_DYNAMIC_ENUM_SERIALIZATION_DECLARATION(type_m,tuples_m)
@@ -95,13 +95,18 @@
   TENUM_DYNAMIC_ENUM_OPERATORS_DEFINITION(type_m) \
   TENUM_DYNAMIC_ENUM_SERIALIZATION_DEFINITION(type_m,tuples_m)
 
-#define TENUM_DYNAMIC_ENUM_I(type_m,tuples_m) \
-  TENUM_DYNAMIC_ENUM_DECLARATION(type_m,tuples_m) \
+#define TENUM_DYNAMIC_ENUM_I(type_m,tuples_m,unknown_value_m) \
+  TENUM_DYNAMIC_ENUM_DECLARATION(type_m,tuples_m,unknown_value_m) \
   TENUM_DYNAMIC_ENUM_DEFINITION(type_m,tuples_m)
 
-#define TENUM_DYNAMIC_ENUM(type_m,tuples_m) \
-  TENUM_DYNAMIC_ENUM_I(type_m,tuples_m)
+/**
+ * unknown_value_m is the value of the unknown enum element. It has to be set to a value outside the range of normal
+ * values, as the first value minus one for example.
+ * If it is set to minus one, the first value of the value range should be set explicitely to 0 to avoid compiler errors.
+ */
+#define TENUM_DYNAMIC_ENUM(type_m,tuples_m,unknown_value_m) \
+  TENUM_DYNAMIC_ENUM_I(type_m,tuples_m,unknown_value_m)
 #define TENUM_SIMPLE_DYNAMIC_ENUM(type_m,values_m) \
-  TENUM_DYNAMIC_ENUM_I(type_m,TENUM_ENUM_VALUES_COMPLETE(values_m))
+  TENUM_DYNAMIC_ENUM_I(type_m,TENUM_ENUM_VALUES_COMPLETE(values_m),0)
 
 #endif /* TENUM_DYNAMIC_ENUM_HPP_ */

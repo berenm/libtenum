@@ -15,6 +15,7 @@ lte_dynamic_enum(dynamic_enum,
     lte_ev(value1,2)
     lte_evn(value2,5,"test_value2")
     lte_e(value3)
+    ,~0ul
 )
 
 BOOST_AUTO_TEST_SUITE(dynamic_enum_tests)
@@ -67,7 +68,7 @@ BOOST_AUTO_TEST_CASE(test_dynamic_enum_5) {
 }
 
 BOOST_AUTO_TEST_CASE(test_dynamic_enum_6) {
-  dynamic_enum_t enum_value = static_cast< dynamic_enum_t > (-1);
+  dynamic_enum_t enum_value = static_cast< dynamic_enum_t > (0);
   ::std::string string_value;
   ::std::stringstream stream;
   stream << enum_value;
@@ -82,7 +83,7 @@ BOOST_AUTO_TEST_CASE(test_dynamic_enum_7) {
   stream << string_value;
   stream >> enum_value;
   BOOST_CHECK_EQUAL(enum_value,static_cast< dynamic_enum_t > (dynamic_enum::lte_unknown));
-  BOOST_CHECK_EQUAL(enum_value,static_cast< dynamic_enum_t > (-1));
+  BOOST_CHECK_EQUAL(enum_value,static_cast< dynamic_enum_t > (~0ul));
 }
 
 BOOST_AUTO_TEST_CASE(test_dynamic_enum_8) {
