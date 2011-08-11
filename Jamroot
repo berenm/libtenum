@@ -39,30 +39,30 @@ variant release_c0x : release : <cflags>--std=c++0x ;
 
 unit-test test_static_enum : test/test_static_enum.cpp ;
 unit-test test_dynamic_enum : test/test_dynamic_enum.cpp ;
-unit-test test_bit_flag : test/test_bit_flag.cpp ;
+unit-test test_bit_field : test/test_bit_field.cpp ;
 
 alias tests_debug_c0x
   : test_static_enum
     test_dynamic_enum
-    test_bit_flag
+    test_bit_field
   : <variant>debug_c0x ;
 
 alias tests_release_c0x
   : test_static_enum
     test_dynamic_enum
-    test_bit_flag
+    test_bit_field
   : <variant>release_c0x ;
   
 alias tests_debug_c98
   : test_static_enum
     test_dynamic_enum
-    test_bit_flag
+    test_bit_field
   : <variant>debug_c98 ;
 
 alias tests_release_c98
   : test_static_enum
     test_dynamic_enum
-    test_bit_flag
+    test_bit_field
   : <variant>release_c98 ;
 
 alias tests : tests_debug_c98 tests_release_c98 tests_debug_c0x tests_release_c0x ;

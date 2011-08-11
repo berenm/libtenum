@@ -39,15 +39,15 @@
 #endif /* TENUM_DEFAULT_SEPARATOR_DYNAMIC_ENUM */
 
 /**
- * @def TENUM_DEFAULT_SEPARATOR_BIT_FLAG
+ * @def TENUM_DEFAULT_SEPARATOR_BIT_FIELD
  * @brief Defines the default separator for bit flags combination, expands to char or char const*.
  *
  * Default separator is '+', which will serialize bit flags as "enum_value1+enum_value2".
  *
  * @warning The separator should not include any space (or related) character.
  */
-#ifndef TENUM_DEFAULT_SEPARATOR_BIT_FLAG
-#  define TENUM_DEFAULT_SEPARATOR_BIT_FLAG '+'
-#endif /* TENUM_DEFAULT_SEPARATOR_BIT_FLAG */
+#ifndef TENUM_DEFAULT_SEPARATOR_BIT_FIELD
+#  define TENUM_DEFAULT_SEPARATOR_BIT_FIELD '+'
+#endif /* TENUM_DEFAULT_SEPARATOR_BIT_FIELD */
 
 #endif /* TENUM_DEFAULT_HPP_ */

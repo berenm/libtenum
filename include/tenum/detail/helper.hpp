@@ -30,7 +30,7 @@ namespace tenum {
    * @todo comment.
    */
   template< typename EnumType >
-  struct is_bit_flag: ::boost::false_type {
+  struct is_bit_field: ::boost::false_type {
   };
 
   /**
@@ -49,17 +49,17 @@ namespace tenum {
        * @todo comment.
        * @param enum_value_in
        * @param is_dynamic
-       * @param is_bit_flag
+       * @param is_bit_field
        * @return
        */
-      template< bool const IsDynamic, bool const IsBitFlag >
+      template< bool const IsDynamic, bool const IsBitField >
       static inline ::std::string serialize_impl(EnumType const enum_value_in,
                                                  ::boost::integral_constant< bool, IsDynamic > const& is_dynamic,
-                                                 ::boost::integral_constant< bool, IsBitFlag > const& is_bit_flag) {
+                                                 ::boost::integral_constant< bool, IsBitField > const& is_bit_field) {
         BOOST_STATIC_ASSERT_MSG(!IsDynamic, "serialization of dynamic enum is not supported for EnumType.");
-        BOOST_STATIC_ASSERT_MSG(!IsBitFlag, "serialization of bit flags is not supported for EnumType.");
-        BOOST_STATIC_ASSERT_MSG(IsDynamic && IsBitFlag, "serialization of enum is not supported for EnumType.");
-        BOOST_STATIC_ASSERT_MSG(!IsDynamic && !IsBitFlag, "serialization of dynamic bit flags is not supported.");
+        BOOST_STATIC_ASSERT_MSG(!IsBitField, "serialization of bit flags is not supported for EnumType.");
+        BOOST_STATIC_ASSERT_MSG(IsDynamic && IsBitField, "serialization of enum is not supported for EnumType.");
+        BOOST_STATIC_ASSERT_MSG(!IsDynamic && !IsBitField, "serialization of dynamic bit flags is not supported.");
         return "";
       }
 
@@ -67,17 +67,17 @@ namespace tenum {
        * @todo comment.
        * @param value_in
        * @param is_dynamic
-       * @param is_bit_flag
+       * @param is_bit_field
        * @return
        */
-      template< bool const IsDynamic, bool const IsBitFlag >
+      template< bool const IsDynamic, bool const IsBitField >
       static inline EnumType deserialize_impl(::std::string const& value_in,
                                               ::boost::integral_constant< bool, IsDynamic > const& is_dynamic,
-                                              ::boost::integral_constant< bool, IsBitFlag > const& is_bit_flag) {
+                                              ::boost::integral_constant< bool, IsBitField > const& is_bit_field) {
         BOOST_STATIC_ASSERT_MSG(!IsDynamic, "deserialization of dynamic enum is not supported for EnumType.");
-        BOOST_STATIC_ASSERT_MSG(!IsBitFlag, "deserialization of bit flags is not supported for EnumType.");
-        BOOST_STATIC_ASSERT_MSG(IsDynamic && IsBitFlag, "deserialization of enum is not supported for EnumType.");
-        BOOST_STATIC_ASSERT_MSG(!IsDynamic && !IsBitFlag, "deserialization of dynamic bit flags is not supported.");
+        BOOST_STATIC_ASSERT_MSG(!IsBitField, "deserialization of bit flags is not supported for EnumType.");
+        BOOST_STATIC_ASSERT_MSG(IsDynamic && IsBitField, "deserialization of enum is not supported for EnumType.");
+        BOOST_STATIC_ASSERT_MSG(!IsDynamic && !IsBitField, "deserialization of dynamic bit flags is not supported.");
         return static_cast< EnumType > (0);
       }
 
@@ -87,7 +87,7 @@ namespace tenum {
        * @return
        */
       static inline ::std::string serialize(EnumType const value_in) {
-        return serialize_impl(value_in, is_dynamic< EnumType > (), is_bit_flag< EnumType > ());
+        return serialize_impl(value_in, is_dynamic< EnumType > (), is_bit_field< EnumType > ());
       }
 
       /**
@@ -96,7 +96,7 @@ namespace tenum {
        * @return
        */
       static inline EnumType deserialize(::std::string const& value_in) {
-        return deserialize_impl(value_in, is_dynamic< EnumType > (), is_bit_flag< EnumType > ());
+        return deserialize_impl(value_in, is_dynamic< EnumType > (), is_bit_field< EnumType > ());
       }
   };
 

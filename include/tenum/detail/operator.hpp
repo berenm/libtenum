@@ -86,14 +86,14 @@
  */
 
 /**
- * @def TENUM_BIT_FLAG_OPERATORS_DECLARATION(type_m)
+ * @def TENUM_BIT_FIELD_OPERATORS_DECLARATION(type_m)
  * @brief Expands to operators declaration for bit flag type_m (&, |, ^, &=, |= and ^=).
  *
  * Expands to nothing when scoped enums are not available as old-style enums are automatically casted to integers.
  */
 
 /**
- * @def TENUM_BIT_FLAG_OPERATORS_DEFINITION(type_m)
+ * @def TENUM_BIT_FIELD_OPERATORS_DEFINITION(type_m)
  * @brief Expands to operators definition for bit flag type_m (&, |, ^, &=, |= and ^=).
  *
  * Expands to nothing when scoped enums are not available as old-style enums are automatically casted to integers.
@@ -104,8 +104,8 @@
 #  define TENUM_ENUM_OPERATORS_DEFINITION(type_m)
 #  define TENUM_DYNAMIC_ENUM_OPERATORS_DECLARATION(type_m)
 #  define TENUM_DYNAMIC_ENUM_OPERATORS_DEFINITION(type_m)
-#  define TENUM_BIT_FLAG_OPERATORS_DECLARATION(type_m)
-#  define TENUM_BIT_FLAG_OPERATORS_DEFINITION(type_m)
+#  define TENUM_BIT_FIELD_OPERATORS_DECLARATION(type_m)
+#  define TENUM_BIT_FIELD_OPERATORS_DEFINITION(type_m)
 
 #else
 
@@ -219,7 +219,7 @@ static inline TENUM_TYPE(type_m)& operator-=(TENUM_TYPE(type_m)& lhs_in, Integer
   return lhs_in = lhs_in - rhs_in;                                                                      \
 }
 
-#  define TENUM_BIT_FLAG_OPERATORS_DECLARATION(type_m)                                                          \
+#  define TENUM_BIT_FIELD_OPERATORS_DECLARATION(type_m)                                                          \
 static inline TENUM_TYPE(type_m) operator&(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in);   \
 static inline TENUM_TYPE(type_m) operator|(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in);   \
 static inline TENUM_TYPE(type_m) operator^(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in);   \
@@ -227,7 +227,7 @@ static inline TENUM_TYPE(type_m)& operator&=(TENUM_TYPE(type_m)& lhs_in, TENUM_T
 static inline TENUM_TYPE(type_m)& operator|=(TENUM_TYPE(type_m)& lhs_in, TENUM_TYPE(type_m) const rhs_in);      \
 static inline TENUM_TYPE(type_m)& operator^=(TENUM_TYPE(type_m)& lhs_in, TENUM_TYPE(type_m) const rhs_in);
 
-#  define TENUM_BIT_FLAG_OPERATORS_DEFINITION(type_m)                                                           \
+#  define TENUM_BIT_FIELD_OPERATORS_DEFINITION(type_m)                                                           \
 static inline TENUM_TYPE(type_m) operator&(TENUM_TYPE(type_m) const lhs_in, TENUM_TYPE(type_m) const rhs_in) {  \
   return TENUM_OPERATOR_BIT_AND(type_m,lhs_in,rhs_in);                                                          \
 }                                                                                                               \
