@@ -1,34 +1,14 @@
 # Distributed under the Boost Software License, Version 1.0.
 # See accompanying file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt
 
-import multiarch ;
 import testing ;
 import path ;
 
-lib boost_thread : : [ multiarch.search-path ] ;
-lib boost_program_options : : [ multiarch.search-path ] ;
-lib boost_filesystem : : [ multiarch.search-path ] ;
-lib boost_regex : : [ multiarch.search-path ] ;
-lib boost_iostreams : : [ multiarch.search-path ] ;
-lib boost_date_time : : [ multiarch.search-path ] ;
-lib boost_system : : [ multiarch.search-path ] ;
-lib boost_log : : [ multiarch.search-path ] ;
-lib boost_test_exec_monitor : : [ multiarch.search-path ] ;
+lib boost_test_exec_monitor ;
 
 project libtenum : requirements
-  <library>boost_thread
-  <library>boost_program_options
-  <library>boost_filesystem
-  <library>boost_regex
-  <library>boost_iostreams
-  <library>boost_date_time
-  <library>boost_system
   <library>boost_test_exec_monitor
-  
-  $(INCLUDES)
   <include>include/
-  <tag>@$(__name__).tag
-
   <threading>multi
   : default-build debug ;
 
@@ -67,10 +47,3 @@ alias tests_release_c98
 
 alias tests : tests_debug_c98 tests_release_c98 tests_debug_c0x tests_release_c0x ;
 
-alias build : tests ;
-
-multiarch.install install libtenum
-                    :
-                    :
-                    : [ path.glob-tree include/ : *.* : ]
-                    : <install-source-root>./include/ ;
