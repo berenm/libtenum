@@ -22,10 +22,10 @@
 #  define lte_dynamic_enum      TENUM_DYNAMIC_ENUM
 #  define lte_dynamic_enum_decl TENUM_DYNAMIC_ENUM_DECLARATION
 #  define lte_dynamic_enum_defn TENUM_DYNAMIC_ENUM_DEFINITION
-#  define lte_bit_flag_s        TENUM_SIMPLE_BIT_FLAG
-#  define lte_bit_flag          TENUM_BIT_FLAG
-#  define lte_bit_flag_decl     TENUM_BIT_FLAG_DECLARATION
-#  define lte_bit_flag_defn     TENUM_BIT_FLAG_DEFINITION
+#  define lte_bit_field_s        TENUM_SIMPLE_BIT_FIELD
+#  define lte_bit_field          TENUM_BIT_FIELD
+#  define lte_bit_field_decl     TENUM_BIT_FIELD_DECLARATION
+#  define lte_bit_field_defn     TENUM_BIT_FIELD_DEFINITION
 
 #  define lte_e   TENUM_ELEMENT
 #  define lte_ev  TENUM_ELEMENT_VALUED
