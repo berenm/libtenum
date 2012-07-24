@@ -13,10 +13,4 @@
 !.cproject
 !.project
 !.dep.inc
-bin
-dist
-doc/html
-
-fhs.jam
-build-config.jam
-
+build
