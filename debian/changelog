@@ -1,4 +1,4 @@
-libtenum (0.9.4-1) unstable; urgency=low
+libtenum (0.9.4-1) precise; urgency=low
 
   * Initial release (Closes: #682804)
 
