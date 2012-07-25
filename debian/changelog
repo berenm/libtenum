@@ -1,0 +1,5 @@
+libtenum (0.9.4-1) unstable; urgency=low
+
+  * Initial release (Closes: #682804)
+
+ -- Beren Minor <beren.minor+debian@gmail.com>  Tue, 24 Jul 2012 09:17:23 +0200
