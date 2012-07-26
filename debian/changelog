@@ -1,3 +1,9 @@
+libtenum (0.9.5-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Beren Minor <beren.minor+debian@gmail.com>  Thu, 26 Jul 2012 16:09:06 +0200
+
 libtenum (0.9.4-1) unstable; urgency=low
 
   * Initial release (Closes: #682804)
