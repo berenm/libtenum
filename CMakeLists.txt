@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 2.8)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 include(GNUInstallDirs)
 include(ParseVersion)
-include(AddSubmodule)
 
 project(libtenum CXX)
 parse_version(libtenum VERSION 0.9.5)
