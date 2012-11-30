@@ -13,4 +13,5 @@
 !.cproject
 !.project
 !.dep.inc
+!.travis.yml
 build
