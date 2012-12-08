@@ -1,0 +1,3 @@
+[submodule "cmake/extra"]
+	path = cmake/extra
+	url = git://github.com/berenm/cmake-extra.git
