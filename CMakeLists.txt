@@ -37,7 +37,7 @@ install(FILES include/tenum.hpp
 
 # -------------------------------------------------------------------------
 # tests
-if(CMAKE_BUILD_TESTS)
+if(BUILD_TESTS)
   enable_testing()
 
   add_executable(unit-test-bit-field
