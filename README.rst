@@ -1,8 +1,12 @@
-libtenum : a metaprogramming library to make enums a little bit nicer
-======================================================================
+libtenum : make enums a little bit nicer
+=========================================
 .. image:: https://secure.travis-ci.org/berenm/libtenum.png?branch=master
     :alt: Build Status
     :target: https://travis-ci.org/berenm/libtenum
+
+.. image:: http://stillmaintained.com/berenm/libtenum.png
+    :alt: Still Maintained?
+    :target: http://stillmaintained.com/berenm/libtenum
 
 - https://www.ohloh.net/p/libtenum
 - http://berenm.github.com/libtenum
