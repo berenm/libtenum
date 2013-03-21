@@ -2,7 +2,7 @@ language: cpp
 script:
   - mkdir build
   - cd build
-  - cmake -DBUILD_TESTS=1 .. && make && make test
+  - cmake -DBUILD_TESTS=1 -DENABLE_GCOVERALLS=1 .. && make && ctest -R tenum && ./coveralls-upload
 compiler:
   - gcc
   - clang
@@ -10,6 +10,6 @@ before_install:
   - sudo add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu/ quantal main universe"
   - sudo apt-get -qq update
   - sudo apt-get -qq install g++-4.7 libboost1.50-all-dev
-  - sudo update-alternatives --quiet --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.6
-  - sudo update-alternatives --quiet --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 40 --slave /usr/bin/g++ g++ /usr/bin/g++-4.7
+  - sudo update-alternatives --quiet --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.6 --slave /usr/bin/gcov gcov /usr/bin/gcov-4.6
+  - sudo update-alternatives --quiet --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 40 --slave /usr/bin/g++ g++ /usr/bin/g++-4.7 --slave /usr/bin/gcov gcov /usr/bin/gcov-4.7
   - sudo update-alternatives --quiet --set gcc /usr/bin/gcc-4.7

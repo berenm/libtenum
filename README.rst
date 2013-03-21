@@ -4,6 +4,10 @@ libtenum : make enums a little bit nicer
     :alt: Build Status
     :target: https://travis-ci.org/berenm/libtenum
 
+.. image:: https://coveralls.io/repos/berenm/libtenum/badge.png?branch=master
+    :alt: Coverage Status
+    :target: https://coveralls.io/r/berenm/libtenum
+
 .. image:: http://stillmaintained.com/berenm/libtenum.png
     :alt: Still Maintained?
     :target: http://stillmaintained.com/berenm/libtenum

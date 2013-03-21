@@ -58,3 +58,8 @@ if(BUILD_TESTS)
   target_link_libraries(unit-test-static-enum ${Boost_LIBRARIES})
   add_test(unit-test-static-enum unit-test-static-enum)
 endif()
+
+if(ENABLE_GCOVERALLS)
+  include(GCoveralls)
+  enable_gcoveralls()
+endif()
