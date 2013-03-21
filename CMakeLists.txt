@@ -40,23 +40,17 @@ install(FILES include/tenum.hpp
 if(BUILD_TESTS)
   enable_testing()
 
-  add_executable(unit-test-bit-field
-    test/test_bit_field.cpp
-  )
-  target_link_libraries(unit-test-bit-field ${Boost_LIBRARIES})
-  add_test(unit-test-bit-field unit-test-bit-field)
+  add_executable(unit-test-tenum-bit-field test/test_bit_field.cpp)
+  target_link_libraries(unit-test-tenum-bit-field ${Boost_LIBRARIES})
+  add_test(unit-test-tenum-bit-field unit-test-tenum-bit-field)
 
-  add_executable(unit-test-dynamic-enum
-    test/test_dynamic_enum.cpp
-  )
-  target_link_libraries(unit-test-dynamic-enum ${Boost_LIBRARIES})
-  add_test(unit-test-dynamic-enum unit-test-dynamic-enum)
+  add_executable(unit-test-tenum-dynamic-enum test/test_dynamic_enum.cpp)
+  target_link_libraries(unit-test-tenum-dynamic-enum ${Boost_LIBRARIES})
+  add_test(unit-test-tenum-dynamic-enum unit-test-tenum-dynamic-enum)
 
-  add_executable(unit-test-static-enum
-    test/test_static_enum.cpp
-  )
-  target_link_libraries(unit-test-static-enum ${Boost_LIBRARIES})
-  add_test(unit-test-static-enum unit-test-static-enum)
+  add_executable(unit-test-tenum-static-enum test/test_static_enum.cpp)
+  target_link_libraries(unit-test-tenum-static-enum ${Boost_LIBRARIES})
+  add_test(unit-test-tenum-static-enum unit-test-tenum-static-enum)
 endif()
 
 if(ENABLE_GCOVERALLS)
